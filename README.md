@@ -6,7 +6,6 @@ This project is a work-in-progress somewhat functional mockup of what a dense an
 
 ## WIP
 
-- Create half-sized information screens
-- Create screens for arriving at a station
-- Add the ability to add custom routes
-
+- Add ability to customise the route displayed
+- Add dark mode
+- Possibly add an alternate station arrival screen

@@ -1,20 +1,54 @@
 @import "tailwindcss";
 
+:root {
+  --background: #ffffff;
+  --header: #404040;
+  --main: #000000;
+  --secondary: #ffffff;
+}
+
 @theme inline {
-  --animate-scroll: scroll var(--speed) linear infinite;
+  --color-background: var(--background);
+  --color-header: var(--header);
+  --color-main: var(--main);
+  --color-secondary: var(--secondary);
+}
 
-  @keyframes scroll {
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #000000;
+    --header: #404040;
+    --main: #ffffff;
+    --secondary: #ffffff;
+  }
+} */
+
+@theme inline {
+  --animate-scrollA: scroll-a var(--speed) linear infinite;
+  --animate-scrollB: scroll-b var(--speed) linear infinite;
+
+  @keyframes scroll-a {
     0% {
-      transform: translateY(0%);
-    }
-
-    5% {
-      transform: translateY(0%);
+      transform: translateY(50%);
     }
 
     100% {
-      transform: translateY(-110%);
+      transform: translateY(-105%);
     }
   }
 
+  @keyframes scroll-b {
+    0% {
+      transform: translateY(25%);
+    }
+
+    100% {
+      transform: translateY(-105%);
+    }
+  }
+}
+
+body {
+  font-family: 'Public Sans';
+  color: var(--color-main);
 }
