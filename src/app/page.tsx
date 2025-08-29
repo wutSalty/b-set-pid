@@ -48,6 +48,7 @@ export default function Home() {
       <p className='text-xl p-2 inline-block'>{"Mockup B-Set PID Simulator"}</p>
       <p className='text-sm p-2 inline-block'>{"Made by Salty"}</p>
       <a className='text-sm m-2 inline-block underline' href='https://github.com/wutSalty/b-set-pid' target="_blank" rel="noopener noreferrer">{"GitHub Repo"}</a>
+      <p className='text-sm m-2'>{"Note: Page may be totally broken on mobile. Please use a desktop browser."}</p>
       <div className='basis-1/5 p-2'>
         <div className='my-2'>
           <label htmlFor="LineCode" className='inline-block w-sm'>Line Code (max 3 char)</label>
