@@ -5,54 +5,39 @@ import SmallUpcoming from './Components/small-upcoming';
 import BigStopping from './Components/big-stopping';
 import SmallStopping from './Components/small-stopping';
 
-export default function Home() {
-  const [LineColour, setLineColour] = React.useState('#d11f2f');
-  const [LineCode, setLineCode] = React.useState('CCN');
-  const [FinalStop, setFinalStop] = React.useState('Wondabyne');
-  const [ViaStop, setViaStop] = React.useState('Wondabyne');
-  const [NextStop, setNextStop] = React.useState('Wondabyne');
-
-  // const LineColour = "#d11f2f";
-  // const LineCode = "CCN";
-  // const FinalStop = "Wondabyne";
-  // const ViaStop = "Wondabyne";
-  // const NextStop = "Wondabyne";
-  const UpcomingStops = [
-    "Wondabyne",
-    "Wondabyne",
-    "Wondabyne",
-    "Wondabyne",
-    "Wondabyne",
-    "Wondabyne",
-    "Wondabyne",
-    "Wondabyne",
-    "Wondabyne",
-    "Wondabyne",
-    "Wondabyne",
-    "Wondabyne",
-    "Wondabyne",
+  const DefaultLineColour = "#029747";
+  const DefaultLineCode = "T8";
+  const DefaultFinalStop = "Revesby";
+  const DefaultViaStop = "Airport";
+  const DefaultNextStop = "Central";
+  const DefaultUpcomingStops = [
+    "Green Square",
+    "Mascot",
+    "Domestic",
+    "International",
+    "Wolli Creek",
+    "Turella",
+    "Bardwell Park",
+    "Bexley North",
+    "Kingsgrove",
+    "Beverly Hills",
+    "Narwee",
+    "Riverwood",
+    "Padstow",
+    "Revesby",
   ];
 
-  // const LineColour = "#029747";
-  // const LineCode = "T8";
-  // const FinalStop = "Revesby";
-  // const ViaStop = "Airport";
-  // const NextStop = "Green Square";
-  // const UpcomingStops = [
-  //   "Mascot",
-  //   "Domestic",
-  //   "International",
-  //   "Wolli Creek",
-  //   "Turella",
-  //   "Bardwell Park",
-  //   "Bexley North",
-  //   "Kingsgrove",
-  //   "Beverly Hills",
-  //   "Narwee",
-  //   "Riverwood",
-  //   "Padstow",
-  //   "Revesby",
-  // ];
+export default function Home() {
+  const [LineColour, setLineColour] = React.useState(DefaultLineColour);
+  const [LineCode, setLineCode] = React.useState(DefaultLineCode);
+  const [FinalStop, setFinalStop] = React.useState(DefaultFinalStop);
+  const [ViaStop, setViaStop] = React.useState(DefaultViaStop);
+  const [NextStop, setNextStop] = React.useState(DefaultNextStop);
+  const [UpcomingStops, setUpcomingStops] = React.useState(DefaultUpcomingStops);
+
+  const formatUpcomingStops = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setUpcomingStops(e.target.value.split('\n'))
+  }
   
   const ScrollStyle = {
     "--speed": `${UpcomingStops.length * 2}s`,
@@ -60,70 +45,136 @@ export default function Home() {
 
   return (
     <div>
-      <div className='m-2'>
-        <p>Edit values</p>
-        <div>
-          <label htmlFor="LineCode">Line Code (max 3 char)</label>
-          <input type='text' id='LineCode' name='LineCode' minLength={1} maxLength={3} onChange={(e) => setLineCode(e.target.value)} required className='border invalid:border-red-500' />
+      <p className='text-xl p-2 inline-block'>{"Mockup B-Set PID Simulator"}</p>
+      <p className='text-sm p-2 inline-block'>{"Made by Salty"}</p>
+      <a className='text-sm m-2 inline-block underline' href='https://github.com/wutSalty/b-set-pid' target="_blank" rel="noopener noreferrer">{"GitHub Repo"}</a>
+      <div className='basis-1/5 p-2'>
+        <div className='my-2'>
+          <label htmlFor="LineCode" className='inline-block w-sm'>Line Code (max 3 char)</label>
+          <input 
+            type='text' 
+            id='LineCode' 
+            name='LineCode' 
+            minLength={1} 
+            maxLength={3} 
+            defaultValue={DefaultLineCode}
+            onChange={(e) => setLineCode(e.target.value)} 
+            required 
+            className='border invalid:border-red-500' />
         </div>
-        <div>
-          {/* Need to check valid colour */}
-          <label htmlFor="LineCode">Line Colour (HEX including #)</label>
-          <input type='text' id='LineColour' name='LineColour' minLength={7} maxLength={7} onChange={(e) => setLineColour(e.target.value)} required className='border invalid:border-red-500' />
+        <div className='my-2'>
+          <label htmlFor="LineCode" className='inline-block w-sm'>Line Colour (HEX including #)</label>
+          <input 
+            type='text' 
+            id='LineColour' 
+            name='LineColour' 
+            minLength={7} 
+            maxLength={7} 
+            defaultValue={DefaultLineColour}
+            onChange={(e) => setLineColour(e.target.value)} 
+            required 
+            className='border invalid:border-red-500' />
         </div>
-        <div>
-          <label htmlFor="FinalStop">Final Stop</label>
-          <input type='text' id='FinalStop' name='FinalStop' onChange={(e) => setFinalStop(e.target.value)} required className='border invalid:border-red-500' />
+        <div className='my-2'>
+          <label htmlFor="FinalStop" className='inline-block w-sm'>Final Stop</label>
+          <input 
+            type='text' 
+            id='FinalStop' 
+            name='FinalStop' 
+            defaultValue={DefaultFinalStop}
+            onChange={(e) => setFinalStop(e.target.value)} 
+            required 
+            className='border invalid:border-red-500' />
         </div>
-        <div>
-          <label htmlFor="ViaStop">Via Station</label>
-          <input type='text' id='ViaStop' name='ViaStop' onChange={(e) => setViaStop(e.target.value)} className='border invalid:border-red-500' />
+        <div className='my-2'>
+          <label htmlFor="ViaStop" className='inline-block w-sm'>Via Station</label>
+          <input 
+            type='text' 
+            id='ViaStop' 
+            name='ViaStop' 
+            defaultValue={DefaultViaStop}
+            onChange={(e) => setViaStop(e.target.value)} 
+            className='border invalid:border-red-500' />
         </div>
-        <div>
-          <label htmlFor="NextStop">Next Stop</label>
-          <input type='text' id='NextStop' name='NextStop' onChange={(e) => setNextStop(e.target.value)} required className='border invalid:border-red-500' />
+        <div className='my-2'>
+          <label htmlFor="NextStop" className='inline-block w-sm'>Next Stop</label>
+          <input 
+            type='text' 
+            id='NextStop' 
+            name='NextStop' 
+            defaultValue={DefaultNextStop}
+            onChange={(e) => setNextStop(e.target.value)} 
+            required 
+            className='border invalid:border-red-500' />
         </div>
-        <div>
-          {/* Need to split into array */}
-          <label htmlFor='UpcomingStops' className='align-middle'>Upcoming Stops (separate with new line)</label>
-          <textarea id='UpcomingStops' name='UpcomingStops' className='border align-middle'></textarea>
+        <div className='my-2'>
+          <label htmlFor='UpcomingStops' className='inline-block w-sm align-top'>Upcoming Stops (separate with new line)</label>
+          <textarea 
+            id='UpcomingStops' 
+            name='UpcomingStops' 
+            rows={5}
+            defaultValue={DefaultUpcomingStops.join('\n')}
+            onChange={(e) => formatUpcomingStops(e)} 
+            className='border align-middle'
+          >
+          </textarea>
         </div>
       </div>
+      <div className='flex p-2'>
 
-      <div>
-        <BigUpcoming
-          LineColour={LineColour} 
-          LineCode={LineCode} 
-          FinalStop={FinalStop} 
-          ViaStop={ViaStop} 
-          NextStop={NextStop} 
-          UpcomingStops={UpcomingStops} 
-          ScrollStyle={ScrollStyle as CSSProperties}
-        />
-        <SmallUpcoming
-          LineColour={LineColour} 
-          LineCode={LineCode} 
-          FinalStop={FinalStop} 
-          NextStop={NextStop} 
-          UpcomingStops={UpcomingStops} 
-          ScrollStyle={ScrollStyle as CSSProperties}  
-        />
-      </div>
+        <div className='basis-1/2'>
+          <svg width="100%" viewBox='0 0 854 481' className='inline-block align-top'>
+            <foreignObject x="0" y="0" width={854} height={480}>
+              <BigUpcoming
+                LineColour={LineColour} 
+                LineCode={LineCode} 
+                FinalStop={FinalStop} 
+                ViaStop={ViaStop} 
+                NextStop={NextStop} 
+                UpcomingStops={UpcomingStops} 
+                ScrollStyle={ScrollStyle as CSSProperties}
+              />
+            </foreignObject>
+          </svg>
 
-      <div>
-        <BigStopping
-          LineColour={LineColour} 
-          LineCode={LineCode} 
-          FinalStop={FinalStop}
-          ViaStop={ViaStop}
-          NextStop={NextStop}
-        />
-        <SmallStopping
-          LineColour={LineColour} 
-          LineCode={LineCode} 
-          FinalStop={FinalStop}
-          NextStop={NextStop}
-        />
+          <svg width="100%" viewBox='0 0 854 241' className='inline-block'>
+            <foreignObject x="0" y="0" width={854} height={240}>
+              <SmallUpcoming
+                LineColour={LineColour} 
+                LineCode={LineCode} 
+                FinalStop={FinalStop} 
+                NextStop={NextStop} 
+                UpcomingStops={UpcomingStops} 
+                ScrollStyle={ScrollStyle as CSSProperties}  
+              />
+            </foreignObject>
+          </svg>
+        </div>
+
+        <div className='basis-1/2'>
+          <svg width="100%" viewBox='0 0 854 481' className='inline-block align-top'>
+            <foreignObject x="0" y="0" width={854} height={480}>
+              <BigStopping
+                LineColour={LineColour} 
+                LineCode={LineCode} 
+                FinalStop={FinalStop}
+                ViaStop={ViaStop}
+                NextStop={NextStop}
+              />
+            </foreignObject>
+          </svg>
+
+          <svg width="100%" viewBox='0 0 854 241' className='inline-block'>
+            <foreignObject x="0" y="0" width={854} height={240}>
+              <SmallStopping
+                LineColour={LineColour} 
+                LineCode={LineCode} 
+                FinalStop={FinalStop}
+                NextStop={NextStop}
+              />
+            </foreignObject>
+          </svg>
+        </div>
       </div>
     </div>
   );

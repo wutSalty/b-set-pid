@@ -20,12 +20,12 @@ export default function BigStopping(
   }
 ) {
   return (
-    <div className="aspect-video h-[480px] scale-100 bg-background border inline-block align-top">
+    <div className="aspect-video h-[480px] bg-background border inline-block align-top">
 
       <StandardHeader LineColour={LineColour} LineCode={LineCode} FinalStop={FinalStop} />
 
       <div className="flex h-[calc(480px-75px-75px)]">
-        <div className="flex basis-1/2 h-[calc(480px-75px)]">
+        <div className="flex relative basis-1/2 h-[calc(480px-75px)]">
 
           <div className="absolute left-[calc(28px+32px+40px+8px)]">
             {ViaStop ? <p className="text-3xl">via {ViaStop}</p>: <></>}
@@ -45,22 +45,23 @@ export default function BigStopping(
 
         <div className="basis-1/2 h-[calc(480px-75px-75px)] px-[32px] py-[16px] pr-0 pb-0">
           <p className="text-2xl">Change For</p>
-          <div className='flex gap-[16] items-center flex-wrap mb-[16]'>
+          <div className='flex gap-[12] items-center flex-wrap mb-[12]'>
             <SquareIcon LineCode='T1' LineColour='#f99d1c' />
             <SquareIcon LineCode='T2' LineColour='#0098cd' />
             <SquareIcon LineCode='T3' LineColour='#f37021' />
             <SquareIcon LineCode='T4' LineColour='#005aa3' />
+            <SquareIcon LineCode='T8' LineColour='#029747' />
             <SquareIcon LineCode='T9' LineColour='#d11f2f' />
           </div>
-          <div className='flex gap-[16] items-center flex-wrap mb-[16]'>
+          <div className='flex gap-[12] items-center flex-wrap mb-[12]'>
             <SquareIcon LineCode='M1' LineColour='#168388' />
           </div>
-          <div className='flex gap-[16] items-center flex-wrap mb-[16]'>
+          <div className='flex gap-[12] items-center flex-wrap mb-[12]'>
             <SquareIcon LineCode='L1' LineColour='#be1622' />
             <SquareIcon LineCode='L2' LineColour='#dd1e25' />
             <SquareIcon LineCode='L3' LineColour='#781140' />
           </div>
-          <div className='flex gap-[16] items-center flex-wrap mb-[16]'>
+          <div className='flex gap-[12] items-center flex-wrap mb-[12]'>
             <RoundIcon LineCode='T' LineColour='#e56e0f' />
             <RoundIcon LineCode='C' LineColour='#742283' />
             <RoundIcon LineCode='B' LineColour='#00b6f1' />

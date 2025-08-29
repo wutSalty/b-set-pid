@@ -29,7 +29,7 @@
 
   @keyframes scroll-a {
     0% {
-      transform: translateY(50%);
+      transform: translateY(405px);
     }
 
     100% {
@@ -39,7 +39,7 @@
 
   @keyframes scroll-b {
     0% {
-      transform: translateY(25%);
+      transform: translateY(calc(240px - 75px));
     }
 
     100% {

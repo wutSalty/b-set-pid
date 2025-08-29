@@ -21,7 +21,7 @@ export default function SmallUpcoming(
   }
 ) {
   return (
-    <div className="aspect-32/9 h-[240px] scale-100 bg-background border inline-block">
+    <div className="aspect-32/9 h-[240px] bg-background border inline-block">
 
       <StandardHeader LineColour={LineColour} LineCode={LineCode} FinalStop={FinalStop} />
 
@@ -55,7 +55,7 @@ export default function SmallUpcoming(
             </div>
 
             <div className="absolute h-[calc(240px-75px)] left-[64] overflow-y-hidden">
-              <div className="animate-scrollB" style={ScrollStyle as CSSProperties}>
+              <div className={UpcomingStops.length > 3 ? "animate-scrollB" : ""} style={ScrollStyle}>
                 {UpcomingStops.map((s, i) => (
                   <Upcoming key={i} name={s} colour={LineColour} marginY={12} />
                 ))}

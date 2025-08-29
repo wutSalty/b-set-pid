@@ -18,7 +18,7 @@ export default function SmallStopping(
   }
 ) {
   return (
-    <div className="aspect-32/9 h-[240px] scale-100 bg-background border inline-block">
+    <div className="aspect-32/9 h-[240px] bg-background border inline-block">
 
       <StandardHeader LineColour={LineColour} LineCode={LineCode} FinalStop={FinalStop} />
 

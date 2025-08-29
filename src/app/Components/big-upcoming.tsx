@@ -23,12 +23,12 @@ export default function BigUpcoming(
   }
 ) {
   return (
-    <div className="aspect-video h-[480px] scale-100 bg-background border inline-block align-top">
+    <div className="aspect-video h-[480px] bg-background border inline-block align-top">
     
       <StandardHeader LineColour={LineColour} LineCode={LineCode} FinalStop={FinalStop} />
       
       <div className="flex h-[calc(480px-75px)]">
-        <div className="flex basis-1/2 h-[calc(480px-75px)]">
+        <div className="flex relative basis-1/2 h-[calc(480px-75px)]">
 
           <div className="absolute left-[calc(28px+32px+40px+8px)]">
             {ViaStop ? <p className="text-3xl">via {ViaStop}</p>: <></>}
@@ -61,7 +61,7 @@ export default function BigUpcoming(
             </div>
 
             <div className="absolute h-[calc(405px)] left-[64] overflow-y-hidden">
-              <div className="animate-scrollA" style={ScrollStyle}>
+              <div className={UpcomingStops.length > 6 ? "animate-scrollA" : ""} style={ScrollStyle}>
                 {UpcomingStops.map((s, i) => (
                   <Upcoming key={i} name={s} colour={LineColour} marginY={24} />
                 ))}
