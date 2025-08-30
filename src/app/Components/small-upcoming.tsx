@@ -23,15 +23,21 @@ export default function SmallUpcoming(
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (ref.current) {
-      setHeight(ref.current.clientHeight);
-    }
+    if (!ref.current) return;
+
+    const resizeObserver = new ResizeObserver(() => {
+      setHeight(ref.current ? ref.current.clientHeight : 0);
+    });
+    resizeObserver.observe(ref.current);
+    return () => resizeObserver.disconnect();
   }, []);
 
   const ScrollStyleB = {
     "--speed": `${UpcomingStops.length * 2}s`,
     "--height": `-${height + 24}px`,
   }
+
+  const ScrollClass = UpcomingStops.length > 3 ? "animate-scrollB" : "";
 
   return (
     <div className="aspect-32/9 h-[240px] bg-background border">
@@ -78,7 +84,7 @@ export default function SmallUpcoming(
 
           <div className="h-[165] overflow-visible">
             <div className="h-[165] ml-[64] overflow-y-hidden">
-              <div className="animate-scrollB" style={ScrollStyleB as CSSProperties} ref={ref}>
+              <div className={ScrollClass} style={ScrollStyleB as CSSProperties} ref={ref}>
                 {UpcomingStops.map((s, i) => (
                   <Upcoming key={i} name={s} colour={LineColour} marginY={12} />
                 ))}

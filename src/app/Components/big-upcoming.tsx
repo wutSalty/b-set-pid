@@ -25,15 +25,21 @@ export default function BigUpcoming(
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (ref.current) {
-      setHeight(ref.current.clientHeight);
-    }
+    if (!ref.current) return;
+
+    const resizeObserver = new ResizeObserver(() => {
+      setHeight(ref.current ? ref.current.clientHeight : 0);
+    });
+    resizeObserver.observe(ref.current);
+    return () => resizeObserver.disconnect();
   }, []);
 
   const ScrollStyleA = {
     "--speed": `${UpcomingStops.length * 2}s`,
     "--height": `-${height + 48}px`,
   }
+
+  const ScrollClass = UpcomingStops.length > 6 ? "animate-scrollA" : "";
 
   // 405 = 0%
   // height + 48 = 100%
@@ -91,7 +97,7 @@ export default function BigUpcoming(
           {/* Scrolling */}
           <div className="h-[405] overflow-visible">
             <div className="h-[405] ml-[64] overflow-y-hidden">
-              <div className="animate-scrollA" style={ScrollStyleA as CSSProperties} ref={ref}>
+              <div className={ScrollClass} style={ScrollStyleA as CSSProperties} ref={ref}>
                 {UpcomingStops.map((s, i) => (
                   <Upcoming key={i} name={s} colour={LineColour} marginY={24} />
                 ))}

@@ -6,6 +6,10 @@ const AirportStations = [
 ];
 
 export default function Upcoming({name, colour, marginY}: {name: string, colour: string, marginY: number}) {
+  if (!name) {
+    return <></>
+  }
+  
   return (
     <>
       <div className="w-[350] overflow-visible" style={{margin: `${marginY}px 0`}}>
