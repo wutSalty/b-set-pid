@@ -4,11 +4,15 @@ import BigUpcoming from './Components/big-upcoming';
 import SmallUpcoming from './Components/small-upcoming';
 import BigStopping from './Components/big-stopping';
 import SmallStopping from './Components/small-stopping';
+import { RoundIcon, SquareIcon } from './Components/icons';
+import { MdClose } from 'react-icons/md';
+import InputColour from './Components/InputColour';
 
 interface Roundel {
-  type: "round" | "square";
+  type: string;
   lineCode: string;
   lineColour: string;
+  row: number;
 }
 
 const DefaultLineColour = "#029747";
@@ -41,18 +45,57 @@ export default function Home() {
   const [NextStop, setNextStop] = useState(DefaultNextStop);
   const [UpcomingStops, setUpcomingStops] = useState(DefaultUpcomingStops);
   const [ScrollClass, setScrollClass] = useState<string>("");
-  const [RowOne, setRowOne] = useState<Roundel[]>();
-  const [RowTwo, setRowTwo] = useState<Roundel[]>();
-  const [RowThree, setRowThree] = useState<Roundel[]>();
-  const [RowFour, setRowFour] = useState<Roundel[]>();
+
+  const [Roundels, setRoundels] = useState<Roundel[]>([]);
+  const [RoundelCode, setRoundelCode] = useState("");
+  const [RoundelColour, setRoundelColour] = useState("");
+  const [RoundelType, setRoundelType] = useState("");
+  const [RoundelRow, setRoundelRow] = useState(0);
 
   const formatUpcomingStops = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setUpcomingStops(e.target.value.split('\n'))
   }
 
+  const addToRow = () => {
+    let tempColour = RoundelColour.trim();
+    if (tempColour === "" || tempColour === "#") {
+      tempColour = "#000000";
+    }
+
+    const adding: Roundel = {type: RoundelType, lineCode: RoundelCode, lineColour: tempColour, row: RoundelRow};
+    setRoundels([...Roundels, adding])
+  }
+
+  const roundelMatch = (a: Roundel, b: Roundel) => {
+    if (a.lineCode !== b.lineCode) return false;
+    if (a.lineColour !== b.lineColour) return false;
+    if (a.row !== b.row) return false;
+    if (a.type !== b.type) return false;
+    return true;
+  }
+
+  const removeFromRow = (roundel: Roundel) => {
+    setRoundels(Roundels.filter((r) => !roundelMatch(r, roundel)));
+  }
+
   const restartScroll = () => {
     setScrollClass("a");
     setTimeout(() => setScrollClass(""), 1);
+  }
+
+  const RoundelCard = ({roundel}:{roundel: Roundel}) => {
+    return (
+      <div className='flex items-center bg-slate-200 rounded-md p-2 gap-2 scale-80'>
+        {
+          roundel.type === "square" ?
+          <SquareIcon LineCode={roundel.lineCode} LineColour={roundel.lineColour} /> :
+          <RoundIcon LineCode={roundel.lineCode} LineColour={roundel.lineColour} />
+        }
+        <button className='rounded-full hover:cursor-pointer hover:bg-gray-100' onClick={() => removeFromRow(roundel)}>
+          <MdClose className='inline-block text-3xl' />
+        </button>
+      </div>
+    );
   }
 
   return (
@@ -63,7 +106,7 @@ export default function Home() {
       <p className='text-sm m-2'>{"Note: Page may be slightly broken on mobile or older browsers. Please use a modern desktop browser."}</p>
       <div className='basis-1/5 p-2'>
         <div className='my-2'>
-          <label htmlFor="LineCode" className='inline-block w-1/2'>Line Code (max 3 char)</label>
+          <label htmlFor="LineCode" className='inline-block w-1/2'>Line Code (1-3 char)</label>
           <input 
             type='text' 
             id='LineCode' 
@@ -73,20 +116,11 @@ export default function Home() {
             defaultValue={DefaultLineCode}
             onChange={(e) => setLineCode(e.target.value)} 
             required 
-            className='border rounded-md p-1 invalid:border-red-500' />
+            className='w-[250] border rounded-md p-1 invalid:border-red-500' />
         </div>
         <div className='my-2'>
-          <label htmlFor="LineColour" className='inline-block w-1/2'>Line Colour (HEX including #)</label>
-          <input 
-            type='text' 
-            id='LineColour' 
-            name='LineColour' 
-            minLength={7} 
-            maxLength={7} 
-            defaultValue={DefaultLineColour}
-            onChange={(e) => setLineColour(e.target.value)} 
-            required 
-            className='border rounded-md p-1 invalid:border-red-500' />
+          <label htmlFor="LineColour" className='inline-block w-1/2'>Line Colour (HEX)</label>
+          <InputColour onChange={(e) => setLineColour(`#${e.target.value}`)} previewColour={LineColour} defaultColour={DefaultLineColour} />
         </div>
         <div className='my-2'>
           <label htmlFor="FinalStop" className='inline-block w-1/2'>Final Stop</label>
@@ -97,7 +131,7 @@ export default function Home() {
             defaultValue={DefaultFinalStop}
             onChange={(e) => setFinalStop(e.target.value)} 
             required 
-            className='border rounded-md p-1 invalid:border-red-500' />
+            className='w-[250] border rounded-md p-1 invalid:border-red-500' />
         </div>
         <div className='my-2'>
           <label htmlFor="ViaStop" className='inline-block w-1/2'>Via Station</label>
@@ -107,7 +141,7 @@ export default function Home() {
             name='ViaStop' 
             defaultValue={DefaultViaStop}
             onChange={(e) => setViaStop(e.target.value)} 
-            className='border rounded-md p-1 invalid:border-red-500' />
+            className='w-[250] border rounded-md p-1 invalid:border-red-500' />
         </div>
         <div className='my-2'>
           <label htmlFor="NextStop" className='inline-block w-1/2'>Next Stop</label>
@@ -118,7 +152,7 @@ export default function Home() {
             defaultValue={DefaultNextStop}
             onChange={(e) => setNextStop(e.target.value)} 
             required 
-            className='border rounded-md p-1 invalid:border-red-500' />
+            className='w-[250] border rounded-md p-1 invalid:border-red-500' />
         </div>
         <div className='my-2'>
           <label htmlFor='UpcomingStops' className='inline-block w-1/2 align-top'>Upcoming Stops (separate with new line)</label>
@@ -128,48 +162,78 @@ export default function Home() {
             rows={5}
             defaultValue={DefaultUpcomingStops.join('\n')}
             onChange={(e) => formatUpcomingStops(e)} 
-            className='border rounded-md p-1 align-middle'
+            className='w-[250] border rounded-md p-1 align-middle'
           >
           </textarea>
         </div>
-        {/* <div className='my-2'>
-          <div className='border rounded-md p-1'>
-            <p className='inline-block w-1/2'>Row 1</p>
+        <div className='my-2'>
+          <p className=''>Interchange Lines</p>
+          <div className='border rounded-md p-1 text-center'>
             <input 
               type='text' 
-              className='border rounded-md p-1 mr-1' 
-              placeholder='Line Code'
-              minLength={1} 
+              className='w-[250] border rounded-md p-1 mr-1 invalid:border-red-500' 
+              placeholder='Line Code (T, T1, BMT)'
+              minLength={1}
               maxLength={3}
+              onChange={(e) => setRoundelCode(e.target.value)}
             ></input>
             <input 
               type='text' 
-              className='border rounded-md p-1 m-1' 
-              placeholder='Line Colour'
-              minLength={7} 
-              maxLength={7} 
+              className='w-[250] border rounded-md p-1 m-1 invalid:border-red-500' 
+              placeholder='Line Colour (#000000)'
+              minLength={7}
+              maxLength={7}
+              onChange={(e) => setRoundelColour(e.target.value)}
             ></input>
-            <button className='border rounded-md p-1 m-1 hover:cursor-pointer hover:bg-gray-100'>Add</button>
-            <div>
-
+            <select 
+              className='border rounded-md p-1 m-1 invalid:border-red-500'
+              onChange={(e) => setRoundelType(e.target.value)}
+            >
+              <option value="round">Round</option>
+              <option value="square">Square</option>
+            </select>
+            <select
+              className='border rounded-md p-1 m-1 invalid:border-red-500'
+              onChange={(e) => setRoundelRow(Number(e.target.value))}
+            >
+              <option value={0}>Row 1</option>
+              <option value={1}>Row 2</option>
+              <option value={2}>Row 3</option>
+              <option value={3}>Row 4</option>
+            </select>
+            <button 
+              className='border rounded-md p-1 px-2 m-1 hover:cursor-pointer hover:bg-gray-100'
+              onClick={() => addToRow()}
+            >Add</button>
+            <p className='text-left'>Row 1</p>
+            <div className='flex'>
+              {Roundels.filter((r) => r.row === 0).map((roundel, i) => (
+                <RoundelCard key={`${i}_${roundel.lineCode}_${roundel.lineColour}_${roundel.row}`} roundel={roundel} />
+              ))}
+            </div>
+            <hr className='text-gray-400 my-1' />
+            <p className='text-left'>Row 2</p>
+            <div className='flex'>
+              {Roundels.filter((r) => r.row === 1).map((roundel, i) => (
+                <RoundelCard key={`${i}_${roundel.lineCode}_${roundel.lineColour}_${roundel.row}`} roundel={roundel} />
+              ))}
+            </div>
+            <hr className='text-gray-400 my-1' />
+            <p className='text-left'>Row 3</p>
+            <div className='flex'>
+              {Roundels.filter((r) => r.row === 2).map((roundel, i) => (
+                <RoundelCard key={`${i}_${roundel.lineCode}_${roundel.lineColour}_${roundel.row}`} roundel={roundel} />
+              ))}
+            </div>
+            <hr className='text-gray-400 my-1' />
+            <p className='text-left'>Row 4</p>
+            <div className='flex'>
+              {Roundels.filter((r) => r.row === 3).map((roundel, i) => (
+                <RoundelCard key={`${i}_${roundel.lineCode}_${roundel.lineColour}_${roundel.row}`} roundel={roundel} />
+              ))}
             </div>
           </div>
-          <div>
-            <p className='inline-block w-1/2'>Row 2</p>
-            <button className='border rounded-md p-1 m-1 hover:cursor-pointer hover:bg-gray-100'>Add</button>
-            <div></div>
-          </div>
-          <div>
-            <p className='inline-block w-1/2'>Row 3</p>
-            <button className='border rounded-md p-1 m-1 hover:cursor-pointer hover:bg-gray-100'>Add</button>
-            <div></div>
-          </div>
-          <div>
-            <p className='inline-block w-1/2'>Row 4</p>
-            <button className='border rounded-md p-1 m-1 hover:cursor-pointer hover:bg-gray-100'>Add</button>
-            <div></div>
-          </div>
-        </div> */}
+        </div>
         <button className='border rounded-md p-1 mx-1 hover:cursor-pointer hover:bg-gray-100' onClick={() => restartScroll()}>{"Restart Scrolling"}</button>
       </div>
       <div className='flex p-2'>

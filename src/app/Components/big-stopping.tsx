@@ -10,6 +10,7 @@ export default function BigStopping(
     FinalStop,
     ViaStop,
     NextStop,
+    Interchange,
   }:
   {
     LineColour: string,
@@ -17,6 +18,7 @@ export default function BigStopping(
     FinalStop: string,
     ViaStop: string,
     NextStop: string,
+    Interchange?: [],
   }
 ) {
   return (
