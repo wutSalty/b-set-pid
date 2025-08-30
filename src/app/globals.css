@@ -29,21 +29,27 @@
 
   @keyframes scroll-a {
     0% {
-      transform: translateY(405px);
+      margin-top: 405px;
+      /* transform: translateY(405px); */
+      /* translate: 0 405px; */
     }
 
     100% {
-      transform: translateY(-105%);
+      margin-top: var(--height);
+      /* transform: translateY(var(--height)); */
+      /* translate: 0 var(--height); */
     }
   }
 
   @keyframes scroll-b {
     0% {
-      transform: translateY(calc(240px - 75px));
+      margin-top: 165px;
+      /* transform: translateY(calc(240px - 75px)); */
     }
 
     100% {
-      transform: translateY(-105%);
+      margin-top: var(--height);
+      /* transform: translateY(-105%); */
     }
   }
 }

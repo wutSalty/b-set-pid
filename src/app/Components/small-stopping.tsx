@@ -18,26 +18,36 @@ export default function SmallStopping(
   }
 ) {
   return (
-    <div className="aspect-32/9 h-[240px] bg-background border inline-block">
+    <div className="aspect-32/9 h-[240px] bg-background border">
 
       <StandardHeader LineColour={LineColour} LineCode={LineCode} FinalStop={FinalStop} />
 
-      <div className="flex h-[calc(240px-75px-75px)]">
-        <div className="flex basis-1/2 h-[calc(240px-75px)]">
+      <div className="flex" style={{height: 240-75-75}}>
 
-          <div className="relative w-[18] left-[calc(28px-9px+32px)]" style={{backgroundColor: LineColour}}>
-            <div className="bg-white border-[6] aspect-square w-[40px] rounded-full relative right-[11] top-[46]" style={{borderColor: LineColour}}>
+        <div className="flex basis-1/2" style={{height: 240-75}}>
+
+          {/* Line */}
+          <div className="h-0 w-0 overflow-visible">
+            <div className="w-[18]" style={{backgroundColor: LineColour, marginLeft: 32+28-9, height: 480-75}}>
             </div>
           </div>
 
-          <div className='relative h-[100] left-[78] top-[12]'>
-            <p className="text-2xl">Now Stopping</p>
-            <p className="text-5xl">{NextStop}</p>
+          {/* Dot */}
+          <div className="h-0 w-0 overflow-visible">
+            <div className="bg-white border-[6] aspect-square w-[40] rounded-full ml-[11] mt-[46]" style={{borderColor: LineColour, marginLeft: 32+28-20}}>
+            </div>
+          </div>
+
+          <div className="h-0 w-0 overflow-visible">
+            <div className='h-[100] ml-[102] mt-[12]'>
+              <p className="text-2xl text-nowrap">Now Stopping</p>
+              <p className="text-5xl text-nowrap">{NextStop}</p>
+            </div>
           </div>
           
         </div>
 
-        <div className="basis-1/2 h-[calc(240px-75px-75px)] px-[32px] py-[8px] pr-0 pb-0">
+        <div className="basis-1/2 px-[32px] py-[8px] pr-0 pb-0" style={{height: 240-75-75}}>
           <p className="text-2xl">Change For</p>
           <div className='flex gap-[12] items-center flex-wrap'>
             <RoundIcon LineCode='T' LineColour='#f5891f' />
@@ -50,10 +60,14 @@ export default function SmallStopping(
         </div>
       </div>
 
-      <div className="h-[75px] flex items-center justify-center relative">
-        <FaChevronLeft className='text-4xl absolute mr-[320]'/>
-        <p className="text-5xl relative">Doors Open</p>
-        <FaChevronRight className='text-4xl absolute ml-[320]'/>
+      <div className="h-[75px] flex items-center justify-center">
+        <div className="w-0 overflow-visible">
+          <FaChevronLeft className='text-4xl ml-[-56]'/>
+        </div>
+        <p className="text-5xl text-nowrap ml-[0]">Doors Open</p>
+        <div className="w-0 overflow-visible">
+          <FaChevronRight className='text-4xl ml-[16]'/>
+        </div>
       </div>
     </div>
   );

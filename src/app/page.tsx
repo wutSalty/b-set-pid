@@ -1,5 +1,5 @@
 'use client'
-import React, { CSSProperties } from 'react';
+import React, { useState } from 'react';
 import BigUpcoming from './Components/big-upcoming';
 import SmallUpcoming from './Components/small-upcoming';
 import BigStopping from './Components/big-stopping';
@@ -28,19 +28,15 @@ import SmallStopping from './Components/small-stopping';
   ];
 
 export default function Home() {
-  const [LineColour, setLineColour] = React.useState(DefaultLineColour);
-  const [LineCode, setLineCode] = React.useState(DefaultLineCode);
-  const [FinalStop, setFinalStop] = React.useState(DefaultFinalStop);
-  const [ViaStop, setViaStop] = React.useState(DefaultViaStop);
-  const [NextStop, setNextStop] = React.useState(DefaultNextStop);
-  const [UpcomingStops, setUpcomingStops] = React.useState(DefaultUpcomingStops);
+  const [LineColour, setLineColour] = useState(DefaultLineColour);
+  const [LineCode, setLineCode] = useState(DefaultLineCode);
+  const [FinalStop, setFinalStop] = useState(DefaultFinalStop);
+  const [ViaStop, setViaStop] = useState(DefaultViaStop);
+  const [NextStop, setNextStop] = useState(DefaultNextStop);
+  const [UpcomingStops, setUpcomingStops] = useState(DefaultUpcomingStops);
 
   const formatUpcomingStops = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setUpcomingStops(e.target.value.split('\n'))
-  }
-  
-  const ScrollStyle = {
-    "--speed": `${UpcomingStops.length * 2}s`,
   }
 
   return (
@@ -48,7 +44,7 @@ export default function Home() {
       <p className='text-xl p-2 inline-block'>{"Mockup B-Set PID Simulator"}</p>
       <p className='text-sm p-2 inline-block'>{"Made by Salty"}</p>
       <a className='text-sm m-2 inline-block underline' href='https://github.com/wutSalty/b-set-pid' target="_blank" rel="noopener noreferrer">{"GitHub Repo"}</a>
-      <p className='text-sm m-2'>{"Note: Page may be totally broken on mobile. Please use a desktop browser."}</p>
+      <p className='text-sm m-2'>{"Note: Page may be slightly broken on mobile or older browsers. Please use a modern desktop browser."}</p>
       <div className='basis-1/5 p-2'>
         <div className='my-2'>
           <label htmlFor="LineCode" className='inline-block w-sm'>Line Code (max 3 char)</label>
@@ -125,6 +121,7 @@ export default function Home() {
 
         <div className='basis-1/2'>
           <svg width="100%" viewBox='0 0 854 481' className='inline-block align-top'>
+            {/* https://stackoverflow.com/questions/51313873/svg-foreignobject-not-working-properly-on-safari */}
             <foreignObject x="0" y="0" width={854} height={480}>
               <BigUpcoming
                 LineColour={LineColour} 
@@ -133,7 +130,6 @@ export default function Home() {
                 ViaStop={ViaStop} 
                 NextStop={NextStop} 
                 UpcomingStops={UpcomingStops} 
-                ScrollStyle={ScrollStyle as CSSProperties}
               />
             </foreignObject>
           </svg>
@@ -145,8 +141,7 @@ export default function Home() {
                 LineCode={LineCode} 
                 FinalStop={FinalStop} 
                 NextStop={NextStop} 
-                UpcomingStops={UpcomingStops} 
-                ScrollStyle={ScrollStyle as CSSProperties}  
+                UpcomingStops={UpcomingStops}  
               />
             </foreignObject>
           </svg>

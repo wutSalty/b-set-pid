@@ -1,4 +1,5 @@
-import { CSSProperties } from "react";
+'use client'
+import React, { CSSProperties, useEffect, useRef, useState } from "react";
 import Upcoming from "./upcoming";
 import StandardHeader from "./header";
 
@@ -10,7 +11,6 @@ export default function BigUpcoming(
     ViaStop,
     NextStop,
     UpcomingStops,
-    ScrollStyle,
   }:
   {
     LineColour: string,
@@ -19,49 +19,79 @@ export default function BigUpcoming(
     ViaStop: string,
     NextStop: string,
     UpcomingStops: string[],
-    ScrollStyle: CSSProperties,
   }
 ) {
+  const [height, setHeight] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (ref.current) {
+      setHeight(ref.current.clientHeight);
+    }
+  }, []);
+
+  const ScrollStyleA = {
+    "--speed": `${UpcomingStops.length * 2}s`,
+    "--height": `-${height + 48}px`,
+  }
+
+  // 405 = 0%
+  // height + 48 = 100%
+
   return (
-    <div className="aspect-video h-[480px] bg-background border inline-block align-top">
+    <div className="aspect-video h-[480px] bg-background border">
     
       <StandardHeader LineColour={LineColour} LineCode={LineCode} FinalStop={FinalStop} />
       
-      <div className="flex h-[calc(480px-75px)]">
-        <div className="flex relative basis-1/2 h-[calc(480px-75px)]">
+      <div className="flex" style={{height: 480-75}}>
+        {/* Left side */}
+        <div className="flex basis-1/2" style={{height: 480-75}}>
 
-          <div className="absolute left-[calc(28px+32px+40px+8px)]">
-            {ViaStop ? <p className="text-3xl">via {ViaStop}</p>: <></>}
+          {/* Via Stop */}
+          <div className="h-0 w-0 overflow-visible">
+            {ViaStop ? <p className="text-3xl text-nowrap" style={{marginLeft: 28+32+40+8}}>via {ViaStop}</p>: <></>}
           </div>
 
-          {/* Line and dot */}
-          <div className="relative w-[18] left-[calc(32px+28px-9px)]" style={{backgroundColor: LineColour}}>
-            <div className="bg-white border-[6] aspect-square w-[40] rounded-full relative right-[11] top-[182]" style={{borderColor: LineColour}}>
+          {/* Line */}
+          <div className="h-0 w-0 overflow-visible">
+            <div className="w-[18]" style={{backgroundColor: LineColour, marginLeft: 32+28-9, height: 480-75}}>
             </div>
           </div>
 
+          {/* Dot */}
+          <div className="h-0 w-0 overflow-visible">
+            <div className="bg-white border-[6] aspect-square w-[40] rounded-full ml-[11] mt-[182]" style={{borderColor: LineColour, marginLeft: 32+28-20}}>
+            </div>
+          </div>
+          
           {/* Next stop: */}
-          <div className="relative h-[100] left-[78] top-[148]">
-            <p className="text-2xl">Next Stop</p>
-            <p className="text-5xl">{NextStop}</p>
+          <div className="h-0 w-0 overflow-visible">
+            <div className="h-[100] ml-[102] mt-[146]">
+              <p className="text-2xl text-nowrap">Next Stop</p>
+              <p className="text-5xl text-nowrap">{NextStop}</p>
+            </div>
           </div>
 
         </div>
 
-        {/* right side */}
-        <div className="basis-1/2">
-          <div className="flex relative h-[405px]">
-            {/* Line and dot */}
-            <div className="relative w-[12] left-[72]" style={{backgroundColor: LineColour}}>
-            </div>
+        {/* Right side */}
+        <div className="flex basis-1/2 h-[405px]">
 
-            {/* Next stop: */}
-            <div className="relative h-[32] left-[64] bottom-[calc(32px+8px)]">
-              <p className="text-2xl text-secondary">Stopping At</p>
+          {/* Line */}
+          <div className="h-0 w-0 overflow-visible">
+            <div className="w-[12]" style={{backgroundColor: LineColour, marginLeft: 72, height: 480-75}}>
             </div>
+          </div>
 
-            <div className="absolute h-[calc(405px)] left-[64] overflow-y-hidden">
-              <div className={UpcomingStops.length > 6 ? "animate-scrollA" : ""} style={ScrollStyle}>
+          {/* Next stop: */}
+          <div className="h-0 w-0 overflow-visible">
+            <p className="text-2xl text-secondary text-nowrap ml-[64] mt-[-40]">Stopping At</p>
+          </div>
+
+          {/* Scrolling */}
+          <div className="h-[405] overflow-visible">
+            <div className="h-[405] ml-[64] overflow-y-hidden">
+              <div className="animate-scrollA" style={ScrollStyleA as CSSProperties} ref={ref}>
                 {UpcomingStops.map((s, i) => (
                   <Upcoming key={i} name={s} colour={LineColour} marginY={24} />
                 ))}
