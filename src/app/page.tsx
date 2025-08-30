@@ -5,27 +5,33 @@ import SmallUpcoming from './Components/small-upcoming';
 import BigStopping from './Components/big-stopping';
 import SmallStopping from './Components/small-stopping';
 
-  const DefaultLineColour = "#029747";
-  const DefaultLineCode = "T8";
-  const DefaultFinalStop = "Revesby";
-  const DefaultViaStop = "Airport";
-  const DefaultNextStop = "Central";
-  const DefaultUpcomingStops = [
-    "Green Square",
-    "Mascot",
-    "Domestic",
-    "International",
-    "Wolli Creek",
-    "Turella",
-    "Bardwell Park",
-    "Bexley North",
-    "Kingsgrove",
-    "Beverly Hills",
-    "Narwee",
-    "Riverwood",
-    "Padstow",
-    "Revesby",
-  ];
+interface Roundel {
+  type: "round" | "square";
+  lineCode: string;
+  lineColour: string;
+}
+
+const DefaultLineColour = "#029747";
+const DefaultLineCode = "T8";
+const DefaultFinalStop = "Revesby";
+const DefaultViaStop = "Airport";
+const DefaultNextStop = "Central";
+const DefaultUpcomingStops = [
+  "Green Square",
+  "Mascot",
+  "Domestic",
+  "International",
+  "Wolli Creek",
+  "Turella",
+  "Bardwell Park",
+  "Bexley North",
+  "Kingsgrove",
+  "Beverly Hills",
+  "Narwee",
+  "Riverwood",
+  "Padstow",
+  "Revesby",
+];
 
 export default function Home() {
   const [LineColour, setLineColour] = useState(DefaultLineColour);
@@ -34,9 +40,19 @@ export default function Home() {
   const [ViaStop, setViaStop] = useState(DefaultViaStop);
   const [NextStop, setNextStop] = useState(DefaultNextStop);
   const [UpcomingStops, setUpcomingStops] = useState(DefaultUpcomingStops);
+  const [ScrollClass, setScrollClass] = useState<string>("");
+  const [RowOne, setRowOne] = useState<Roundel[]>();
+  const [RowTwo, setRowTwo] = useState<Roundel[]>();
+  const [RowThree, setRowThree] = useState<Roundel[]>();
+  const [RowFour, setRowFour] = useState<Roundel[]>();
 
   const formatUpcomingStops = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setUpcomingStops(e.target.value.split('\n'))
+  }
+
+  const restartScroll = () => {
+    setScrollClass("a");
+    setTimeout(() => setScrollClass(""), 1);
   }
 
   return (
@@ -47,7 +63,7 @@ export default function Home() {
       <p className='text-sm m-2'>{"Note: Page may be slightly broken on mobile or older browsers. Please use a modern desktop browser."}</p>
       <div className='basis-1/5 p-2'>
         <div className='my-2'>
-          <label htmlFor="LineCode" className='inline-block w-sm'>Line Code (max 3 char)</label>
+          <label htmlFor="LineCode" className='inline-block w-1/2'>Line Code (max 3 char)</label>
           <input 
             type='text' 
             id='LineCode' 
@@ -57,10 +73,10 @@ export default function Home() {
             defaultValue={DefaultLineCode}
             onChange={(e) => setLineCode(e.target.value)} 
             required 
-            className='border invalid:border-red-500' />
+            className='border rounded-md p-1 invalid:border-red-500' />
         </div>
         <div className='my-2'>
-          <label htmlFor="LineCode" className='inline-block w-sm'>Line Colour (HEX including #)</label>
+          <label htmlFor="LineColour" className='inline-block w-1/2'>Line Colour (HEX including #)</label>
           <input 
             type='text' 
             id='LineColour' 
@@ -70,10 +86,10 @@ export default function Home() {
             defaultValue={DefaultLineColour}
             onChange={(e) => setLineColour(e.target.value)} 
             required 
-            className='border invalid:border-red-500' />
+            className='border rounded-md p-1 invalid:border-red-500' />
         </div>
         <div className='my-2'>
-          <label htmlFor="FinalStop" className='inline-block w-sm'>Final Stop</label>
+          <label htmlFor="FinalStop" className='inline-block w-1/2'>Final Stop</label>
           <input 
             type='text' 
             id='FinalStop' 
@@ -81,20 +97,20 @@ export default function Home() {
             defaultValue={DefaultFinalStop}
             onChange={(e) => setFinalStop(e.target.value)} 
             required 
-            className='border invalid:border-red-500' />
+            className='border rounded-md p-1 invalid:border-red-500' />
         </div>
         <div className='my-2'>
-          <label htmlFor="ViaStop" className='inline-block w-sm'>Via Station</label>
+          <label htmlFor="ViaStop" className='inline-block w-1/2'>Via Station</label>
           <input 
             type='text' 
             id='ViaStop' 
             name='ViaStop' 
             defaultValue={DefaultViaStop}
             onChange={(e) => setViaStop(e.target.value)} 
-            className='border invalid:border-red-500' />
+            className='border rounded-md p-1 invalid:border-red-500' />
         </div>
         <div className='my-2'>
-          <label htmlFor="NextStop" className='inline-block w-sm'>Next Stop</label>
+          <label htmlFor="NextStop" className='inline-block w-1/2'>Next Stop</label>
           <input 
             type='text' 
             id='NextStop' 
@@ -102,20 +118,59 @@ export default function Home() {
             defaultValue={DefaultNextStop}
             onChange={(e) => setNextStop(e.target.value)} 
             required 
-            className='border invalid:border-red-500' />
+            className='border rounded-md p-1 invalid:border-red-500' />
         </div>
         <div className='my-2'>
-          <label htmlFor='UpcomingStops' className='inline-block w-sm align-top'>Upcoming Stops (separate with new line)</label>
+          <label htmlFor='UpcomingStops' className='inline-block w-1/2 align-top'>Upcoming Stops (separate with new line)</label>
           <textarea 
             id='UpcomingStops' 
             name='UpcomingStops' 
             rows={5}
             defaultValue={DefaultUpcomingStops.join('\n')}
             onChange={(e) => formatUpcomingStops(e)} 
-            className='border align-middle'
+            className='border rounded-md p-1 align-middle'
           >
           </textarea>
         </div>
+        {/* <div className='my-2'>
+          <div className='border rounded-md p-1'>
+            <p className='inline-block w-1/2'>Row 1</p>
+            <input 
+              type='text' 
+              className='border rounded-md p-1 mr-1' 
+              placeholder='Line Code'
+              minLength={1} 
+              maxLength={3}
+            ></input>
+            <input 
+              type='text' 
+              className='border rounded-md p-1 m-1' 
+              placeholder='Line Colour'
+              minLength={7} 
+              maxLength={7} 
+            ></input>
+            <button className='border rounded-md p-1 m-1 hover:cursor-pointer hover:bg-gray-100'>Add</button>
+            <div>
+
+            </div>
+          </div>
+          <div>
+            <p className='inline-block w-1/2'>Row 2</p>
+            <button className='border rounded-md p-1 m-1 hover:cursor-pointer hover:bg-gray-100'>Add</button>
+            <div></div>
+          </div>
+          <div>
+            <p className='inline-block w-1/2'>Row 3</p>
+            <button className='border rounded-md p-1 m-1 hover:cursor-pointer hover:bg-gray-100'>Add</button>
+            <div></div>
+          </div>
+          <div>
+            <p className='inline-block w-1/2'>Row 4</p>
+            <button className='border rounded-md p-1 m-1 hover:cursor-pointer hover:bg-gray-100'>Add</button>
+            <div></div>
+          </div>
+        </div> */}
+        <button className='border rounded-md p-1 mx-1 hover:cursor-pointer hover:bg-gray-100' onClick={() => restartScroll()}>{"Restart Scrolling"}</button>
       </div>
       <div className='flex p-2'>
 
@@ -129,7 +184,8 @@ export default function Home() {
                 FinalStop={FinalStop} 
                 ViaStop={ViaStop} 
                 NextStop={NextStop} 
-                UpcomingStops={UpcomingStops} 
+                UpcomingStops={UpcomingStops}
+                ScrollClass={ScrollClass}
               />
             </foreignObject>
           </svg>
@@ -141,7 +197,8 @@ export default function Home() {
                 LineCode={LineCode} 
                 FinalStop={FinalStop} 
                 NextStop={NextStop} 
-                UpcomingStops={UpcomingStops}  
+                UpcomingStops={UpcomingStops}
+                ScrollClass={ScrollClass}
               />
             </foreignObject>
           </svg>

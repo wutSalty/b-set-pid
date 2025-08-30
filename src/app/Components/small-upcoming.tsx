@@ -10,6 +10,7 @@ export default function SmallUpcoming(
     FinalStop,
     NextStop,
     UpcomingStops,
+    ScrollClass,
   }:
   {
     LineColour: string,
@@ -17,6 +18,7 @@ export default function SmallUpcoming(
     FinalStop: string,
     NextStop: string,
     UpcomingStops: string[],
+    ScrollClass?: string,
   }
 ) {
   const [height, setHeight] = useState(0);
@@ -37,7 +39,7 @@ export default function SmallUpcoming(
     "--height": `-${height + 24}px`,
   }
 
-  const ScrollClass = UpcomingStops.length > 3 ? "animate-scrollB" : "";
+  if (!ScrollClass) ScrollClass = UpcomingStops.length > 3 ? "animate-scrollB" : "";
 
   return (
     <div className="aspect-32/9 h-[240px] bg-background border">

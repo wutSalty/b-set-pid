@@ -11,6 +11,7 @@ export default function BigUpcoming(
     ViaStop,
     NextStop,
     UpcomingStops,
+    ScrollClass,
   }:
   {
     LineColour: string,
@@ -19,6 +20,7 @@ export default function BigUpcoming(
     ViaStop: string,
     NextStop: string,
     UpcomingStops: string[],
+    ScrollClass?: string,
   }
 ) {
   const [height, setHeight] = useState(0);
@@ -39,7 +41,8 @@ export default function BigUpcoming(
     "--height": `-${height + 48}px`,
   }
 
-  const ScrollClass = UpcomingStops.length > 6 ? "animate-scrollA" : "";
+  if (!ScrollClass) ScrollClass = UpcomingStops.length > 6 ? "animate-scrollA" : "";
+  // const ScrollClass = UpcomingStops.length > 6 ? "animate-scrollA" : "";
 
   // 405 = 0%
   // height + 48 = 100%
