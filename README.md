@@ -12,7 +12,7 @@ This project is a work-in-progress somewhat functional mockup of what an actuall
 - Try not to use station names that are too long
 - 6 interchange lines per row before things break
 - Round icons don't do well with more than 1 character
-- Domestic and Internation are hard-coded to have an airplane icon in the upcoming list
+- Domestic and International are hard-coded to have an airplane icon in the upcoming list
 - Click on a colour in the template to paste it into a colour input
 
 ## Self-deployment
