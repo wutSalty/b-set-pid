@@ -2,6 +2,7 @@ import { FaChevronLeft } from 'react-icons/fa';
 import { FaChevronRight } from 'react-icons/fa';
 import { RoundIcon, SquareIcon } from './icons';
 import StandardHeader from './header';
+import { Roundel } from '../Types/Roundel';
 
 export default function BigStopping(
   {
@@ -10,7 +11,7 @@ export default function BigStopping(
     FinalStop,
     ViaStop,
     NextStop,
-    Interchange,
+    Roundels,
   }:
   {
     LineColour: string,
@@ -18,7 +19,7 @@ export default function BigStopping(
     FinalStop: string,
     ViaStop: string,
     NextStop: string,
-    Interchange?: [],
+    Roundels: Roundel[],
   }
 ) {
   return (
@@ -58,27 +59,55 @@ export default function BigStopping(
         </div>
 
         <div className="basis-1/2 px-[32px] py-[16px] pr-0 pb-0" style={{height: 480-75-75}}>
-          <p className="text-2xl">Change For</p>
+          {Roundels.length > 0 ? <p className="text-2xl">Change For</p> : <></>}
           <div className='flex gap-[12] items-center flex-wrap mb-[12]'>
-            <SquareIcon LineCode='T1' LineColour='#f99d1c' />
+            {
+              Roundels.filter(r => r.row === 0).map((r, i) => (
+                r.type === "square" ?
+                <SquareIcon key={`${i}_${r.lineCode}_${r.lineColour}_${r.row}`} LineCode={r.lineCode} LineColour={r.lineColour} /> :
+                <RoundIcon key={`${i}_${r.lineCode}_${r.lineColour}_${r.row}`} LineCode={r.lineCode} LineColour={r.lineColour} />
+              ))
+            }
+            {/* <SquareIcon LineCode='T1' LineColour='#f99d1c' />
             <SquareIcon LineCode='T2' LineColour='#0098cd' />
             <SquareIcon LineCode='T3' LineColour='#f37021' />
             <SquareIcon LineCode='T4' LineColour='#005aa3' />
             <SquareIcon LineCode='T8' LineColour='#029747' />
-            <SquareIcon LineCode='T9' LineColour='#d11f2f' />
+            <SquareIcon LineCode='T9' LineColour='#d11f2f' /> */}
           </div>
           <div className='flex gap-[12] items-center flex-wrap mb-[12]'>
-            <SquareIcon LineCode='M1' LineColour='#168388' />
+            {
+              Roundels.filter(r => r.row === 1).map((r, i) => (
+                r.type === "square" ?
+                <SquareIcon key={`${i}_${r.lineCode}_${r.lineColour}_${r.row}`} LineCode={r.lineCode} LineColour={r.lineColour} /> :
+                <RoundIcon key={`${i}_${r.lineCode}_${r.lineColour}_${r.row}`} LineCode={r.lineCode} LineColour={r.lineColour} />
+              ))
+            }
+            {/* <SquareIcon LineCode='M1' LineColour='#168388' /> */}
           </div>
           <div className='flex gap-[12] items-center flex-wrap mb-[12]'>
-            <SquareIcon LineCode='L1' LineColour='#be1622' />
+            {
+              Roundels.filter(r => r.row === 2).map((r, i) => (
+                r.type === "square" ?
+                <SquareIcon key={`${i}_${r.lineCode}_${r.lineColour}_${r.row}`} LineCode={r.lineCode} LineColour={r.lineColour} /> :
+                <RoundIcon key={`${i}_${r.lineCode}_${r.lineColour}_${r.row}`} LineCode={r.lineCode} LineColour={r.lineColour} />
+              ))
+            }
+            {/* <SquareIcon LineCode='L1' LineColour='#be1622' />
             <SquareIcon LineCode='L2' LineColour='#dd1e25' />
-            <SquareIcon LineCode='L3' LineColour='#781140' />
+            <SquareIcon LineCode='L3' LineColour='#781140' /> */}
           </div>
           <div className='flex gap-[12] items-center flex-wrap mb-[12]'>
-            <RoundIcon LineCode='T' LineColour='#e56e0f' />
+            {
+              Roundels.filter(r => r.row === 3).map((r, i) => (
+                r.type === "square" ?
+                <SquareIcon key={`${i}_${r.lineCode}_${r.lineColour}_${r.row}`} LineCode={r.lineCode} LineColour={r.lineColour} /> :
+                <RoundIcon key={`${i}_${r.lineCode}_${r.lineColour}_${r.row}`} LineCode={r.lineCode} LineColour={r.lineColour} />
+              ))
+            }
+            {/* <RoundIcon LineCode='T' LineColour='#e56e0f' />
             <RoundIcon LineCode='C' LineColour='#742283' />
-            <RoundIcon LineCode='B' LineColour='#00b6f1' />
+            <RoundIcon LineCode='B' LineColour='#00b6f1' /> */}
           </div>
         </div>
       </div>

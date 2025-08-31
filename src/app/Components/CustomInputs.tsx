@@ -1,14 +1,18 @@
 import { ChangeEventHandler } from "react";
 
-export default function InputColour({
+export function InputColour({
   onChange, 
   previewColour, 
-  defaultColour
+  defaultColour,
+  required = false,
+  placeholder = "",
 }:
 {
   onChange: ChangeEventHandler<HTMLInputElement>,
   previewColour: string,
   defaultColour: string,
+  required?: boolean,
+  placeholder?: string,
 }
 ) {
   return (
@@ -18,11 +22,12 @@ export default function InputColour({
         type='text' 
         id='LineColour' 
         name='LineColour' 
+        placeholder={placeholder}
         minLength={1} 
         maxLength={6}
         defaultValue={defaultColour.slice(1)}
         onChange={(e) => onChange(e)}
-        required 
+        required={required} 
         className='p-1 grow-1 shrink-1 min-w-0' />
         <div className='w-[25] h-[32] grow-1 shrink-0 rounded-r-md' style={{backgroundColor: previewColour}}></div>
     </div>

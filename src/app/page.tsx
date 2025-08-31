@@ -1,19 +1,14 @@
 'use client'
-import React, { useState } from 'react';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import BigUpcoming from './Components/big-upcoming';
 import SmallUpcoming from './Components/small-upcoming';
 import BigStopping from './Components/big-stopping';
 import SmallStopping from './Components/small-stopping';
 import { RoundIcon, SquareIcon } from './Components/icons';
 import { MdClose } from 'react-icons/md';
-import InputColour from './Components/InputColour';
-
-interface Roundel {
-  type: string;
-  lineCode: string;
-  lineColour: string;
-  row: number;
-}
+import { InputColour } from './Components/CustomInputs';
+import { Roundel } from './Types/Roundel';
+import { FaCheck } from 'react-icons/fa';
 
 const DefaultLineColour = "#029747";
 const DefaultLineCode = "T8";
@@ -36,6 +31,33 @@ const DefaultUpcomingStops = [
   "Padstow",
   "Revesby",
 ];
+
+function ColourSwatch({colour}:{colour: string}) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  const copyToClipboard = (value: string) => {
+    navigator.clipboard.writeText(value);
+    if (!ref.current) return;
+    ref.current.style.display = "block";
+
+    setTimeout(() => {
+      if(!ref.current) return;
+      ref.current.style.display = "none";
+    }, 1000);
+  }
+
+  return (
+    <div 
+      className='w-[48] h-[48] rounded-md flex items-center justify-center hover:cursor-pointer' 
+      style={{backgroundColor: colour}}
+      onClick={() => copyToClipboard(colour.slice(1))}
+    >
+      <div ref={ref} style={{display: "none"}}>
+        <FaCheck className='text-white' />
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
   const [LineColour, setLineColour] = useState(DefaultLineColour);
@@ -104,7 +126,9 @@ export default function Home() {
       <p className='text-sm p-2 inline-block'>{"Made by Salty"}</p>
       <a className='text-sm m-2 inline-block underline' href='https://github.com/wutSalty/b-set-pid' target="_blank" rel="noopener noreferrer">{"GitHub Repo"}</a>
       <p className='text-sm m-2'>{"Note: Page may be slightly broken on mobile or older browsers. Please use a modern desktop browser."}</p>
-      <div className='basis-1/5 p-2'>
+      <div className='p-2'>
+
+        {/* Panels */}
         <div className='my-2'>
           <label htmlFor="LineCode" className='inline-block w-1/2'>Line Code (1-3 char)</label>
           <input 
@@ -120,7 +144,12 @@ export default function Home() {
         </div>
         <div className='my-2'>
           <label htmlFor="LineColour" className='inline-block w-1/2'>Line Colour (HEX)</label>
-          <InputColour onChange={(e) => setLineColour(`#${e.target.value}`)} previewColour={LineColour} defaultColour={DefaultLineColour} />
+          <InputColour 
+            onChange={(e) => setLineColour(`#${e.target.value}`)} 
+            previewColour={LineColour} 
+            defaultColour={DefaultLineColour} 
+            required
+          />
         </div>
         <div className='my-2'>
           <label htmlFor="FinalStop" className='inline-block w-1/2'>Final Stop</label>
@@ -163,9 +192,31 @@ export default function Home() {
             defaultValue={DefaultUpcomingStops.join('\n')}
             onChange={(e) => formatUpcomingStops(e)} 
             className='w-[250] border rounded-md p-1 align-middle'
-          >
-          </textarea>
+          ></textarea>
         </div>
+
+        {/* Colour Template */}
+        <div className='my-2'>
+          <p className=''>{"Colour Templates (click to copy)"}</p>
+          <div className='flex items-center justify-around p-1'>
+            <ColourSwatch colour='#f99d1c' />
+            <ColourSwatch colour='#0098cd' />
+            <ColourSwatch colour='#f37021' />
+            <ColourSwatch colour='#005aa3' />
+            <ColourSwatch colour='#029747' />
+            <ColourSwatch colour='#d11f2f' />
+            <ColourSwatch colour='#168388' />
+            <ColourSwatch colour='#be1622' />
+            <ColourSwatch colour='#dd1e25' />
+            <ColourSwatch colour='#781140' />
+            <ColourSwatch colour='#ed6601' />
+            <ColourSwatch colour='#e56e0f' />
+            <ColourSwatch colour='#742283' />
+            <ColourSwatch colour='#00b6f1' />
+          </div>
+        </div>
+
+        {/* Interchange Selectors */}
         <div className='my-2'>
           <p className=''>Interchange Lines</p>
           <div className='border rounded-md p-1 text-center'>
@@ -177,14 +228,12 @@ export default function Home() {
               maxLength={3}
               onChange={(e) => setRoundelCode(e.target.value)}
             ></input>
-            <input 
-              type='text' 
-              className='w-[250] border rounded-md p-1 m-1 invalid:border-red-500' 
-              placeholder='Line Colour (#000000)'
-              minLength={7}
-              maxLength={7}
-              onChange={(e) => setRoundelColour(e.target.value)}
-            ></input>
+            <InputColour 
+              onChange={(e) => setRoundelColour(`#${e.target.value}`)} 
+              previewColour={RoundelColour} 
+              defaultColour=''
+              placeholder='Line Colour (123456)'
+            />
             <select 
               className='border rounded-md p-1 m-1 invalid:border-red-500'
               onChange={(e) => setRoundelType(e.target.value)}
@@ -277,6 +326,7 @@ export default function Home() {
                 FinalStop={FinalStop}
                 ViaStop={ViaStop}
                 NextStop={NextStop}
+                Roundels={Roundels}
               />
             </foreignObject>
           </svg>
