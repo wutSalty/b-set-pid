@@ -13,7 +13,7 @@ This project is a work-in-progress somewhat functional mockup of what an actuall
 - 6 interchange lines per row before things break
 - Round icons don't do well with more than 1 character
 - Domestic and International are hard-coded to have an airplane icon in the upcoming list
-- Click on a colour in the template to paste it into a colour input
+- Click on a colour in the template to copy its value, then paste it into a colour input
 
 ## Self-deployment
 1. git clone
