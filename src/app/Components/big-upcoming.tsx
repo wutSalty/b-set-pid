@@ -139,9 +139,9 @@ export function BigUpcomingSVG(
     if (!ref.current) return;
 
     const resizeObserver = new ResizeObserver(() => {
-      setHeight(ref.current ? ref.current.clientHeight : 0);
-      // setHeight(ref.current ? ref.current.getBBox().height : 0);
+      setTimeout(() => setHeight(ref.current ? ref.current.getBBox().height : 0), 1)
     });
+    
     resizeObserver.observe(ref.current);
     return () => resizeObserver.disconnect();
   }, []);
@@ -151,10 +151,11 @@ export function BigUpcomingSVG(
     "--height": `-${height + 48}px`,
   } as CSSProperties
 
+  // Throws a fit? Double check height code
   if (!ScrollClass) ScrollClass = UpcomingStops.length > 6 ? "animate-scrollTest" : "";
 
   return (
-    <svg width="100%" viewBox='0 0 854 480' className='inline-block align-top border'>
+    <svg width="100%" viewBox='0 0 854 480' className='inline-block align-top border' xmlns="http://www.w3.org/2000/svg">
       <rect fill='white' width={854} height={480}></rect>
 
       {/* Right Side */}
@@ -165,6 +166,16 @@ export function BigUpcomingSVG(
           {UpcomingStops.map((s, i) => (
             <UpcomingSVG key={`${s}${i}`} name={s} colour={LineColour} margin={64} i={i} />
           ))}
+          {/* Doesnt work on webkit */}
+          {/* <animateTransform 
+            attributeName="transform"
+            attributeType="CSS"
+            type="translate"
+            from={`0 405`}
+            to={`0 -${height+48}`}
+            dur={`${UpcomingStops.length * 2}s`}
+            repeatCount='indefinite'
+          /> */}
         </g>
       </g>
       
