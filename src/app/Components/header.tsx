@@ -44,3 +44,26 @@ export default function StandardHeader(
     </div>
   );
 }
+
+export function StandardHeaderSVG(
+  {
+    LineColour,
+    LineCode,
+    FinalStop,
+  }:
+  {
+    LineColour: string,
+    LineCode: string,
+    FinalStop: string,
+  }
+) {
+  return (
+    <g>
+      <rect className='fill-header' width='100%' height={75}></rect>
+      <text className='text-xl fill-secondary' textAnchor='end' x={854-32} y={75/2} dominantBaseline='central'>{`Time Now ${useDate()}`}</text>
+      <rect fill={LineColour} width={56} height={56} rx={8} ry={8} x={32} y={75/2-(56/2)}></rect>
+      <text className='text-2xl font-semibold' fill='white' dominantBaseline='central' textAnchor='middle' x={32+(56/2)} y={75/2}>{LineCode}</text>
+      <text className='text-4xl fill-secondary' x={32+56+16} y={75/2} dominantBaseline='central'>to {FinalStop}</text>
+    </g>
+  );
+}

@@ -1,7 +1,7 @@
 'use client'
 import React, { CSSProperties, useEffect, useRef, useState } from "react";
-import Upcoming from "./upcoming";
-import StandardHeader from "./header";
+import Upcoming, { UpcomingSVG } from "./upcoming";
+import StandardHeader, { StandardHeaderSVG } from "./header";
 
 export default function BigUpcoming(
   {
@@ -42,7 +42,6 @@ export default function BigUpcoming(
   }
 
   if (!ScrollClass) ScrollClass = UpcomingStops.length > 6 ? "animate-scrollA" : "";
-  // const ScrollClass = UpcomingStops.length > 6 ? "animate-scrollA" : "";
 
   // 405 = 0%
   // height + 48 = 100%
@@ -110,5 +109,82 @@ export default function BigUpcoming(
         </div>
       </div>
     </div>
+  );
+}
+
+export function BigUpcomingSVG(
+  {
+    LineColour,
+    LineCode,
+    FinalStop,
+    ViaStop,
+    NextStop,
+    UpcomingStops,
+    ScrollClass,
+  }:
+  {
+    LineColour: string,
+    LineCode: string,
+    FinalStop: string,
+    ViaStop: string,
+    NextStop: string,
+    UpcomingStops: string[],
+    ScrollClass?: string,
+  }
+) {
+  const [height, setHeight] = useState(0);
+  const ref = useRef<SVGGElement>(null);
+
+  useEffect(() => {
+    if (!ref.current) return;
+
+    const resizeObserver = new ResizeObserver(() => {
+      setHeight(ref.current ? ref.current.clientHeight : 0);
+      // setHeight(ref.current ? ref.current.getBBox().height : 0);
+    });
+    resizeObserver.observe(ref.current);
+    return () => resizeObserver.disconnect();
+  }, []);
+
+  const ScrollStyleA = {
+    "--speed": `${UpcomingStops.length * 2}s`,
+    "--height": `-${height + 48}px`,
+  } as CSSProperties
+
+  if (!ScrollClass) ScrollClass = UpcomingStops.length > 6 ? "animate-scrollTest" : "";
+
+  return (
+    <svg width="100%" viewBox='0 0 854 480' className='inline-block align-top border'>
+      <rect fill='white' width={854} height={480}></rect>
+
+      {/* Right Side */}
+      <rect width={12} height={854-75} x={(854/2)+72} y={75} fill={LineColour}></rect>
+      
+      <g transform='translate(505, 75)'>
+        <g className={ScrollClass} style={ScrollStyleA} ref={ref}>
+          {UpcomingStops.map((s, i) => (
+            <UpcomingSVG key={`${s}${i}`} name={s} colour={LineColour} margin={64} i={i} />
+          ))}
+        </g>
+      </g>
+      
+      {/* Header */}
+      <StandardHeaderSVG LineColour={LineColour} LineCode={LineCode} FinalStop={FinalStop} />
+      
+      {/* Left Side */}
+      <g>
+        <text className='text-3xl' dominantBaseline='text-before-edge' x={28+32+40+8} y={75}>via {ViaStop}</text>
+        
+        {/* Line and Dot */}
+        <rect width={18} height={854-75} x={32+28-9} y={75} fill={LineColour}></rect>
+        <circle r={20} cx={32+28} cy={75+182} fill='white' stroke={LineColour} strokeWidth={6}></circle>
+
+        <text className='text-2xl' x={102} y={75+146}>Next Stop</text>
+        <text className='text-5xl' x={102} y={75+182} dominantBaseline='central'>{NextStop}</text>
+      </g>
+      
+      <text className='text-2xl fill-secondary' x={(854/2)+64} y={75-16}>Stopping At</text>
+      
+    </svg>
   );
 }

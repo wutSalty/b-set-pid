@@ -1,6 +1,6 @@
 'use client'
 import React, { useRef, useState } from 'react';
-import BigUpcoming from './Components/big-upcoming';
+import { BigUpcomingSVG } from './Components/big-upcoming';
 import SmallUpcoming from './Components/small-upcoming';
 import BigStopping from './Components/big-stopping';
 import SmallStopping from './Components/small-stopping';
@@ -303,22 +303,18 @@ export default function Home() {
       <div className='flex p-2'>
 
         <div className='basis-1/2'>
-          <svg width="100%" viewBox='0 0 854 481' className='inline-block align-top'>
-            {/* https://stackoverflow.com/questions/51313873/svg-foreignobject-not-working-properly-on-safari */}
-            <foreignObject x="0" y="0" width={854} height={480}>
-              <BigUpcoming
-                LineColour={LineColour} 
-                LineCode={LineCode} 
-                FinalStop={FinalStop} 
-                ViaStop={ViaStop} 
-                NextStop={NextStop} 
-                UpcomingStops={UpcomingStops}
-                ScrollClass={ScrollClass}
-              />
-            </foreignObject>
-          </svg>
+        {/* https://stackoverflow.com/questions/51313873/svg-foreignobject-not-working-properly-on-safari */}
+          <BigUpcomingSVG
+            LineColour={LineColour} 
+            LineCode={LineCode} 
+            FinalStop={FinalStop} 
+            ViaStop={ViaStop} 
+            NextStop={NextStop} 
+            UpcomingStops={UpcomingStops}
+            ScrollClass={ScrollClass}
+          />
 
-          <svg width="100%" viewBox='0 0 854 241' className='inline-block'>
+          {/* <svg width="100%" viewBox='0 0 854 241' className='inline-block'>
             <foreignObject x="0" y="0" width={854} height={240}>
               <SmallUpcoming
                 LineColour={LineColour} 
@@ -329,7 +325,7 @@ export default function Home() {
                 ScrollClass={ScrollClass}
               />
             </foreignObject>
-          </svg>
+          </svg> */}
         </div>
 
         <div className='basis-1/2'>

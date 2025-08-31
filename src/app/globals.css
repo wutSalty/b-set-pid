@@ -27,6 +27,22 @@
   --animate-scrollA: scroll-a var(--speed) linear infinite;
   --animate-scrollB: scroll-b var(--speed) linear infinite;
 
+  --animate-scrollTest: scroll-test var(--speed) linear infinite;
+
+  @keyframes scroll-test {
+    0% {
+      /* margin-top: 405px; */
+      transform: translateY(405px);
+      /* translate: 0 405px; */
+    }
+
+    100% {
+      /* margin-top: var(--height); */
+      transform: translateY(var(--height))
+      /* translate: 0 var(--height); */
+    }
+  }
+
   @keyframes scroll-a {
     0% {
       margin-top: 405px;
