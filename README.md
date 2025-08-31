@@ -24,6 +24,7 @@ This project is a work-in-progress somewhat functional mockup of what an actuall
 
 ## WIP/TODO
 
+- Remake screens in SVG instead of HTML
 - Default station arrival screen
 - Alternate station arrival screen
 - Dark mode
