@@ -4,4 +4,5 @@ export interface Roundel {
   lineCode: string;
   lineColour: string;
   row: number;
+  id: string;
 }

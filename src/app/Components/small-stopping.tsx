@@ -1,7 +1,8 @@
 import { FaChevronLeft } from 'react-icons/fa';
 import { FaChevronRight } from 'react-icons/fa';
-import { RoundIcon } from './icons';
+import { RoundIcon, SquareIcon } from './icons';
 import StandardHeader from './header';
+import { Roundel } from '../Types/Roundel';
 
 export default function SmallStopping(
   {
@@ -9,12 +10,14 @@ export default function SmallStopping(
     LineCode,
     FinalStop,
     NextStop,
+    Roundels,
   }:
   {
     LineColour: string,
     LineCode: string,
     FinalStop: string,
     NextStop: string,
+    Roundels: Roundel[],
   }
 ) {
   return (
@@ -48,14 +51,21 @@ export default function SmallStopping(
         </div>
 
         <div className="basis-1/2 px-[32px] py-[8px] pr-0 pb-0" style={{height: 240-75-75}}>
-          <p className="text-2xl">Change For</p>
+          {Roundels.length > 0 ? <p className="text-2xl">Change For</p> : <></>}
           <div className='flex gap-[12] items-center flex-wrap'>
-            <RoundIcon LineCode='T' LineColour='#f5891f' />
+            {
+              Roundels.filter(r => r.row === 4).map((r, i) => (
+                r.type === "square" ?
+                <SquareIcon key={`${i}_${r.lineCode}_${r.lineColour}_${r.row}`} LineCode={r.lineCode} LineColour={r.lineColour} /> :
+                <RoundIcon key={`${i}_${r.lineCode}_${r.lineColour}_${r.row}`} LineCode={r.lineCode} LineColour={r.lineColour} />
+              ))
+            }
+            {/* <RoundIcon LineCode='T' LineColour='#f5891f' />
             <RoundIcon LineCode='M' LineColour='#009e90' />
             <RoundIcon LineCode='L' LineColour='#e4032e' />
             <RoundIcon LineCode='T' LineColour='#e56e0f' />
             <RoundIcon LineCode='C' LineColour='#742283' />
-            <RoundIcon LineCode='B' LineColour='#00b6f1' />
+            <RoundIcon LineCode='B' LineColour='#00b6f1' /> */}
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 'use client'
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import BigUpcoming from './Components/big-upcoming';
 import SmallUpcoming from './Components/small-upcoming';
 import BigStopping from './Components/big-stopping';
@@ -84,20 +84,12 @@ export default function Home() {
       tempColour = "#000000";
     }
 
-    const adding: Roundel = {type: RoundelType, lineCode: RoundelCode, lineColour: tempColour, row: RoundelRow};
+    const adding: Roundel = {type: RoundelType, lineCode: RoundelCode, lineColour: tempColour, row: RoundelRow, id: crypto.randomUUID()};
     setRoundels([...Roundels, adding])
   }
 
-  const roundelMatch = (a: Roundel, b: Roundel) => {
-    if (a.lineCode !== b.lineCode) return false;
-    if (a.lineColour !== b.lineColour) return false;
-    if (a.row !== b.row) return false;
-    if (a.type !== b.type) return false;
-    return true;
-  }
-
   const removeFromRow = (roundel: Roundel) => {
-    setRoundels(Roundels.filter((r) => !roundelMatch(r, roundel)));
+    setRoundels(Roundels.filter((r) => r.id !== roundel.id));
   }
 
   const restartScroll = () => {
@@ -249,6 +241,7 @@ export default function Home() {
               <option value={1}>Row 2</option>
               <option value={2}>Row 3</option>
               <option value={3}>Row 4</option>
+              <option value={4}>Small Screen</option>
             </select>
             <button 
               className='border rounded-md p-1 px-2 m-1 hover:cursor-pointer hover:bg-gray-100'
@@ -278,6 +271,13 @@ export default function Home() {
             <p className='text-left'>Row 4</p>
             <div className='flex'>
               {Roundels.filter((r) => r.row === 3).map((roundel, i) => (
+                <RoundelCard key={`${i}_${roundel.lineCode}_${roundel.lineColour}_${roundel.row}`} roundel={roundel} />
+              ))}
+            </div>
+            <hr className='text-gray-400 my-1' />
+            <p className='text-left'>Small Screen</p>
+            <div className='flex'>
+              {Roundels.filter((r) => r.row === 4).map((roundel, i) => (
                 <RoundelCard key={`${i}_${roundel.lineCode}_${roundel.lineColour}_${roundel.row}`} roundel={roundel} />
               ))}
             </div>
@@ -338,6 +338,7 @@ export default function Home() {
                 LineCode={LineCode} 
                 FinalStop={FinalStop}
                 NextStop={NextStop}
+                Roundels={Roundels}
               />
             </foreignObject>
           </svg>
