@@ -190,21 +190,36 @@ export default function Home() {
         {/* Colour Template */}
         <div className='my-2'>
           <p className=''>{"Colour Templates (click to copy)"}</p>
-          <div className='flex items-center justify-around p-1'>
+          <div className='flex items-center gap-8 p-1'>
+            {/* T1-9 */}
             <ColourSwatch colour='#f99d1c' />
             <ColourSwatch colour='#0098cd' />
             <ColourSwatch colour='#f37021' />
             <ColourSwatch colour='#005aa3' />
+            <ColourSwatch colour='#c4258f' />
+            <ColourSwatch colour='#7c3e21' />
+            <ColourSwatch colour='#6f818e' />
             <ColourSwatch colour='#029747' />
             <ColourSwatch colour='#d11f2f' />
+          </div>
+          <div className='flex items-center gap-8 p-1'>
+            {/* M1 */}
             <ColourSwatch colour='#168388' />
+          </div>
+          <div className='flex items-center gap-8 p-1'>
+            {/* L1-4 */}
             <ColourSwatch colour='#be1622' />
             <ColourSwatch colour='#dd1e25' />
             <ColourSwatch colour='#781140' />
+            <ColourSwatch colour='#bb2043' />
+          </div>
+          <div className='flex items-center gap-8 p-1'>
+            {/* Regional + Bus + Ferry */}
             <ColourSwatch colour='#ed6601' />
             <ColourSwatch colour='#e56e0f' />
             <ColourSwatch colour='#742283' />
             <ColourSwatch colour='#00b6f1' />
+            <ColourSwatch colour='#5aaf31' />
           </div>
         </div>
 
