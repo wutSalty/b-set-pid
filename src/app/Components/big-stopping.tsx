@@ -1,7 +1,7 @@
 import { FaChevronLeft } from 'react-icons/fa';
 import { FaChevronRight } from 'react-icons/fa';
-import { RoundIcon, SquareIcon } from './icons';
-import StandardHeader from './header';
+import { IconSVG, RoundIcon, SquareIcon } from './icons';
+import StandardHeader, { StandardHeaderSVG } from './header';
 import { Roundel } from '../Types/Roundel';
 
 export default function BigStopping(
@@ -68,12 +68,6 @@ export default function BigStopping(
                 <RoundIcon key={`${i}_${r.lineCode}_${r.lineColour}_${r.row}`} LineCode={r.lineCode} LineColour={r.lineColour} />
               ))
             }
-            {/* <SquareIcon LineCode='T1' LineColour='#f99d1c' />
-            <SquareIcon LineCode='T2' LineColour='#0098cd' />
-            <SquareIcon LineCode='T3' LineColour='#f37021' />
-            <SquareIcon LineCode='T4' LineColour='#005aa3' />
-            <SquareIcon LineCode='T8' LineColour='#029747' />
-            <SquareIcon LineCode='T9' LineColour='#d11f2f' /> */}
           </div>
           <div className='flex gap-[12] items-center flex-wrap mb-[12]'>
             {
@@ -83,7 +77,6 @@ export default function BigStopping(
                 <RoundIcon key={`${i}_${r.lineCode}_${r.lineColour}_${r.row}`} LineCode={r.lineCode} LineColour={r.lineColour} />
               ))
             }
-            {/* <SquareIcon LineCode='M1' LineColour='#168388' /> */}
           </div>
           <div className='flex gap-[12] items-center flex-wrap mb-[12]'>
             {
@@ -93,9 +86,6 @@ export default function BigStopping(
                 <RoundIcon key={`${i}_${r.lineCode}_${r.lineColour}_${r.row}`} LineCode={r.lineCode} LineColour={r.lineColour} />
               ))
             }
-            {/* <SquareIcon LineCode='L1' LineColour='#be1622' />
-            <SquareIcon LineCode='L2' LineColour='#dd1e25' />
-            <SquareIcon LineCode='L3' LineColour='#781140' /> */}
           </div>
           <div className='flex gap-[12] items-center flex-wrap mb-[12]'>
             {
@@ -105,9 +95,6 @@ export default function BigStopping(
                 <RoundIcon key={`${i}_${r.lineCode}_${r.lineColour}_${r.row}`} LineCode={r.lineCode} LineColour={r.lineColour} />
               ))
             }
-            {/* <RoundIcon LineCode='T' LineColour='#e56e0f' />
-            <RoundIcon LineCode='C' LineColour='#742283' />
-            <RoundIcon LineCode='B' LineColour='#00b6f1' /> */}
           </div>
         </div>
       </div>
@@ -122,5 +109,89 @@ export default function BigStopping(
         </div>
       </div>
     </div>
+  );
+}
+
+export function BigStoppingSVG(
+  {
+    LineColour,
+    LineCode,
+    FinalStop,
+    ViaStop,
+    NextStop,
+    Roundels,
+  }:
+  {
+    LineColour: string,
+    LineCode: string,
+    FinalStop: string,
+    ViaStop: string,
+    NextStop: string,
+    Roundels: Roundel[],
+  }
+) {
+  return (
+    <svg width="100%" viewBox='0 0 854 480' className='inline-block align-top border' xmlns="http://www.w3.org/2000/svg">
+      <rect fill='white' width={854} height={480}></rect>
+      
+      {/* Header */}
+      <StandardHeaderSVG LineColour={LineColour} LineCode={LineCode} FinalStop={FinalStop} />
+      
+      {/* Left Side */}
+      <g>
+        <text className='text-3xl' dominantBaseline='text-before-edge' x={28+32+40+8} y={75}>via {ViaStop}</text>
+        
+        {/* Line and Dot */}
+        <rect width={18} height={480-75} x={32+28-9} y={75} fill={LineColour}></rect>
+        <circle r={20} cx={32+28} cy={75+182} fill='white' stroke={LineColour} strokeWidth={6}></circle>
+
+        <text className='text-2xl' x={102} y={75+146}>Now Stopping</text>
+        <text className='text-5xl' x={102} y={75+182} dominantBaseline='central'>{NextStop}</text>
+      </g>
+
+      {/* Right Side */}
+      <g transform='translate(427, 75)'>
+        {Roundels.length > 0 ? <text className="text-2xl" x={32} y={16} dominantBaseline='text-before-edge'>Change For</text> : <></>}
+        <g transform='translate(32, 72)'>
+          {
+            Roundels.filter(r => r.row === 0).map((r, i) => (
+              <IconSVG key={r.id} type={r.type} LineColour={r.lineColour} LineCode={r.lineCode} i={i} />
+            ))
+          }
+        </g>
+        {/* +64 */}
+        <g transform='translate(32, 136)'>
+          {
+            Roundels.filter(r => r.row === 1).map((r, i) => (
+              <IconSVG key={r.id} type={r.type} LineColour={r.lineColour} LineCode={r.lineCode} i={i} />
+            ))
+          }
+        </g>
+        <g transform='translate(32, 200)'>
+          {
+            Roundels.filter(r => r.row === 2).map((r, i) => (
+              <IconSVG key={r.id} type={r.type} LineColour={r.lineColour} LineCode={r.lineCode} i={i} />
+            ))
+          }
+        </g>
+        <g transform='translate(32, 264)'>
+          {
+            Roundels.filter(r => r.row === 3).map((r, i) => (
+              <IconSVG key={r.id} type={r.type} LineColour={r.lineColour} LineCode={r.lineCode} i={i} />
+            ))
+          }
+        </g>
+      </g>
+      
+      {/* 405 + half 75 */}
+      <g transform='translate(0, 442)'>
+          <text className='text-5xl' x="50%" textAnchor='middle' dominantBaseline='central'>Doors Open</text>
+          <g transform='translate(410, -16)'> 
+            <FaChevronLeft className='text-4xl' x={-172}/>
+            <FaChevronRight className='text-4xl' x={172}/>
+          </g>
+      </g>
+      
+    </svg>
   );
 }

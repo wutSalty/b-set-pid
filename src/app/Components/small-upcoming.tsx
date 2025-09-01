@@ -1,7 +1,7 @@
 'use client'
 import { CSSProperties, useEffect, useRef, useState } from "react";
-import Upcoming from "./upcoming";
-import StandardHeader from "./header";
+import Upcoming, { UpcomingSVG } from "./upcoming";
+import StandardHeader, { StandardHeaderSVG } from "./header";
 
 export default function SmallUpcoming(
   {
@@ -98,4 +98,78 @@ export default function SmallUpcoming(
       </div>
     </div>
   );
+}
+
+export function SmallUpcomingSVG(
+  {
+    LineColour,
+    LineCode,
+    FinalStop,
+    NextStop,
+    UpcomingStops,
+    ScrollClass,
+  }:
+  {
+    LineColour: string,
+    LineCode: string,
+    FinalStop: string,
+    NextStop: string,
+    UpcomingStops: string[],
+    ScrollClass?: string,
+  }
+) {
+  const [height, setHeight] = useState(0);
+  const ref = useRef<SVGGElement>(null);
+
+  useEffect(() => {
+    if (!ref.current) return;
+
+    const resizeObserver = new ResizeObserver(() => {
+      setTimeout(() => setHeight(ref.current ? ref.current.getBBox().height : 0), 1)
+    });
+    
+    resizeObserver.observe(ref.current);
+    return () => resizeObserver.disconnect();
+  }, []);
+
+  const ScrollStyleB = {
+    "--speed": `${UpcomingStops.length * 2}s`,
+    "--start": "165px",
+    "--height": `-${height + 48}px`,
+  } as CSSProperties
+
+  if (!ScrollClass) ScrollClass = UpcomingStops.length > 3 ? "animate-scrollTest" : "";
+
+  return (
+      <svg width="100%" viewBox='0 0 854 240' className='inline-block align-top border' xmlns="http://www.w3.org/2000/svg">
+        <rect fill='white' width={854} height={240}></rect>
+  
+        {/* Right Side */}
+        <rect width={12} height={854-75} x={(854/2)+72} y={75} fill={LineColour}></rect>
+        
+        <g transform='translate(505, 75)'>
+          <g className={ScrollClass} style={ScrollStyleB} ref={ref}>
+            {UpcomingStops.map((s, i) => (
+              <UpcomingSVG key={`${s}${i}`} name={s} colour={LineColour} margin={52} i={i} />
+            ))}
+          </g>
+        </g>
+        
+        {/* Header */}
+        <StandardHeaderSVG LineColour={LineColour} LineCode={LineCode} FinalStop={FinalStop} />
+        
+        {/* Left Side */}
+        <g>
+          {/* Line and Dot */}
+          <rect width={18} height={854-75} x={32+28-9} y={75} fill={LineColour}></rect>
+          <circle r={20} cx={32+28} cy={75+46+20} fill='white' stroke={LineColour} strokeWidth={6}></circle>
+  
+          <text className='text-2xl' x={102} y={75+46+20-28}>Next Stop</text>
+          <text className='text-5xl' x={102} y={75+46+20} dominantBaseline='central'>{NextStop}</text>
+        </g>
+        
+        <text className='text-2xl fill-secondary' x={(854/2)+64} y={75-16}>Stopping At</text>
+        
+      </svg>
+    );
 }

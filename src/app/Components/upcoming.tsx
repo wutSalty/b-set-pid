@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { BiSolidPlaneAlt } from 'react-icons/bi';
 
 const AirportStations = [
@@ -23,18 +24,32 @@ export default function Upcoming({name, colour, marginY}: {name: string, colour:
   );
 };
 
-const first = 48;
-// margin for big = 64
+// margin for big = 64 = 40 + 24
+// margin for small = 52 = 40 + 12
 export function UpcomingSVG(
   {name, colour, margin, i}:
   {name: string, colour: string, margin: number, i: number}
 ) {
-  const gap = first + margin * i;
+  const [width, setWidth] = useState(0);
+  const ref = useRef<SVGTextElement>(null);
+  const gap = 48 + (margin * i);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (!ref.current) return;
+      setWidth(ref.current.getBBox().width);
+    }, 1)
+  }, []);
+
+  if (!name) return <></>;
 
   return (
     <g transform={`translate(0, ${gap})`}>
       <circle r={14} fill='white' stroke={colour} strokeWidth={4}></circle>
-      <text className='text-4xl' x={16+14} dominantBaseline='central'>{name}</text>
+      <text className='text-4xl' x={16+14} dominantBaseline='central' ref={ref}>{name}</text>
+      {
+        AirportStations.indexOf(name) >= 0 ? <BiSolidPlaneAlt className='text-4xl' x={width + 32} y={-18}/> : <></>
+      }
     </g>
   );
 }

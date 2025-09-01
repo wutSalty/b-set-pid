@@ -10,7 +10,7 @@ This project is a work-in-progress somewhat functional mockup of what an actuall
 
 ## Tips and suggestions
 - Try not to use station names that are too long
-- 6 interchange lines per row before things break
+- 6 interchange lines per row before things break overflow
 - Round icons don't do well with more than 1 character
 - Domestic and International are hard-coded to have an airplane icon in the upcoming list
 - Click on a colour in the template to copy its value, then paste it into a colour input
@@ -24,7 +24,6 @@ This project is a work-in-progress somewhat functional mockup of what an actuall
 
 ## WIP/TODO
 
-- Remake screens in SVG instead of HTML
 - Default station arrival screen
 - Alternate station arrival screen
 - Dark mode

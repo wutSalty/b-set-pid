@@ -1,7 +1,7 @@
 import { FaChevronLeft } from 'react-icons/fa';
 import { FaChevronRight } from 'react-icons/fa';
-import { RoundIcon, SquareIcon } from './icons';
-import StandardHeader from './header';
+import { IconSVG, RoundIcon, SquareIcon } from './icons';
+import StandardHeader, { StandardHeaderSVG } from './header';
 import { Roundel } from '../Types/Roundel';
 
 export default function SmallStopping(
@@ -60,12 +60,6 @@ export default function SmallStopping(
                 <RoundIcon key={`${i}_${r.lineCode}_${r.lineColour}_${r.row}`} LineCode={r.lineCode} LineColour={r.lineColour} />
               ))
             }
-            {/* <RoundIcon LineCode='T' LineColour='#f5891f' />
-            <RoundIcon LineCode='M' LineColour='#009e90' />
-            <RoundIcon LineCode='L' LineColour='#e4032e' />
-            <RoundIcon LineCode='T' LineColour='#e56e0f' />
-            <RoundIcon LineCode='C' LineColour='#742283' />
-            <RoundIcon LineCode='B' LineColour='#00b6f1' /> */}
           </div>
         </div>
       </div>
@@ -82,3 +76,63 @@ export default function SmallStopping(
     </div>
   );
 }
+
+export function SmallStoppingSVG(
+  {
+    LineColour,
+    LineCode,
+    FinalStop,
+    NextStop,
+    Roundels,
+  }:
+  {
+    LineColour: string,
+    LineCode: string,
+    FinalStop: string,
+    NextStop: string,
+    Roundels: Roundel[],
+  }
+) {
+  return (
+    <svg width="100%" viewBox='0 0 854 240' className='inline-block align-top border' xmlns="http://www.w3.org/2000/svg">
+      <rect fill='white' width={854} height={240}></rect>
+      
+      {/* Header */}
+      <StandardHeaderSVG LineColour={LineColour} LineCode={LineCode} FinalStop={FinalStop} />
+      
+      {/* Left Side */}
+      <g>
+        
+        {/* Line and Dot */}
+        <rect width={18} height={854-75} x={32+28-9} y={75} fill={LineColour}></rect>
+        <circle r={20} cx={32+28} cy={75+46+20} fill='white' stroke={LineColour} strokeWidth={6}></circle>
+
+        <text className='text-2xl' x={102} y={75+46+20-28}>Now Stopping</text>
+        <text className='text-5xl' x={102} y={75+46+20} dominantBaseline='central'>{NextStop}</text>
+      </g>
+
+      {/* Right Side */}
+      <g transform='translate(427, 75)'>
+        {Roundels.length > 0 ? <text className="text-2xl" x={32} y={16} dominantBaseline='text-before-edge'>Change For</text> : <></>}
+        <g transform='translate(32, 72)'>
+          {
+            Roundels.filter(r => r.row === 4).map((r, i) => (
+              <IconSVG key={r.id} type={r.type} LineColour={r.lineColour} LineCode={r.lineCode} i={i} />
+            ))
+          }
+        </g>
+      </g>
+      
+      {/* 165 + half 75 */}
+      <g transform='translate(0, 202)'>
+          <text className='text-5xl' x="50%" textAnchor='middle' dominantBaseline='central'>Doors Open</text>
+          <g transform='translate(410, -16)'> 
+            <FaChevronLeft className='text-4xl' x={-172}/>
+            <FaChevronRight className='text-4xl' x={172}/>
+          </g>
+      </g>
+      
+    </svg>
+  );
+}
+

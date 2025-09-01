@@ -148,6 +148,7 @@ export function BigUpcomingSVG(
 
   const ScrollStyleA = {
     "--speed": `${UpcomingStops.length * 2}s`,
+    "--start": "405px",
     "--height": `-${height + 48}px`,
   } as CSSProperties
 
@@ -159,23 +160,13 @@ export function BigUpcomingSVG(
       <rect fill='white' width={854} height={480}></rect>
 
       {/* Right Side */}
-      <rect width={12} height={854-75} x={(854/2)+72} y={75} fill={LineColour}></rect>
+      <rect width={12} height={480-75} x={(854/2)+72} y={75} fill={LineColour}></rect>
       
       <g transform='translate(505, 75)'>
         <g className={ScrollClass} style={ScrollStyleA} ref={ref}>
           {UpcomingStops.map((s, i) => (
             <UpcomingSVG key={`${s}${i}`} name={s} colour={LineColour} margin={64} i={i} />
           ))}
-          {/* Doesnt work on webkit */}
-          {/* <animateTransform 
-            attributeName="transform"
-            attributeType="CSS"
-            type="translate"
-            from={`0 405`}
-            to={`0 -${height+48}`}
-            dur={`${UpcomingStops.length * 2}s`}
-            repeatCount='indefinite'
-          /> */}
         </g>
       </g>
       
@@ -187,7 +178,7 @@ export function BigUpcomingSVG(
         <text className='text-3xl' dominantBaseline='text-before-edge' x={28+32+40+8} y={75}>via {ViaStop}</text>
         
         {/* Line and Dot */}
-        <rect width={18} height={854-75} x={32+28-9} y={75} fill={LineColour}></rect>
+        <rect width={18} height={480-75} x={32+28-9} y={75} fill={LineColour}></rect>
         <circle r={20} cx={32+28} cy={75+182} fill='white' stroke={LineColour} strokeWidth={6}></circle>
 
         <text className='text-2xl' x={102} y={75+146}>Next Stop</text>

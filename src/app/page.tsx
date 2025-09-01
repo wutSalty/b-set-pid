@@ -1,9 +1,9 @@
 'use client'
 import React, { useRef, useState } from 'react';
 import { BigUpcomingSVG } from './Components/big-upcoming';
-import SmallUpcoming from './Components/small-upcoming';
-import BigStopping from './Components/big-stopping';
-import SmallStopping from './Components/small-stopping';
+import { SmallUpcomingSVG } from './Components/small-upcoming';
+import { BigStoppingSVG } from './Components/big-stopping';
+import { SmallStoppingSVG } from './Components/small-stopping';
 import { RoundIcon, SquareIcon } from './Components/icons';
 import { MdClose } from 'react-icons/md';
 import { InputColour } from './Components/CustomInputs';
@@ -50,8 +50,7 @@ function ColourSwatch({colour}:{colour: string}) {
     <div 
       className='w-[48] h-[48] rounded-md flex items-center justify-center hover:cursor-pointer' 
       style={{backgroundColor: colour}}
-      onClick={() => copyToClipboard(colour.slice(1))}
-    >
+      onClick={() => copyToClipboard(colour.slice(1))}>
       <div ref={ref} style={{display: "none"}}>
         <FaCheck className='text-white' />
       </div>
@@ -71,7 +70,7 @@ export default function Home() {
   const [Roundels, setRoundels] = useState<Roundel[]>([]);
   const [RoundelCode, setRoundelCode] = useState("");
   const [RoundelColour, setRoundelColour] = useState("");
-  const [RoundelType, setRoundelType] = useState("");
+  const [RoundelType, setRoundelType] = useState("round");
   const [RoundelRow, setRoundelRow] = useState(0);
 
   const formatUpcomingStops = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -93,7 +92,7 @@ export default function Home() {
   }
 
   const restartScroll = () => {
-    setScrollClass("a");
+    setScrollClass("hidden");
     setTimeout(() => setScrollClass(""), 1);
   }
 
@@ -303,7 +302,6 @@ export default function Home() {
       <div className='flex p-2'>
 
         <div className='basis-1/2'>
-        {/* https://stackoverflow.com/questions/51313873/svg-foreignobject-not-working-properly-on-safari */}
           <BigUpcomingSVG
             LineColour={LineColour} 
             LineCode={LineCode} 
@@ -314,45 +312,32 @@ export default function Home() {
             ScrollClass={ScrollClass}
           />
 
-          {/* <svg width="100%" viewBox='0 0 854 241' className='inline-block'>
-            <foreignObject x="0" y="0" width={854} height={240}>
-              <SmallUpcoming
-                LineColour={LineColour} 
-                LineCode={LineCode} 
-                FinalStop={FinalStop} 
-                NextStop={NextStop} 
-                UpcomingStops={UpcomingStops}
-                ScrollClass={ScrollClass}
-              />
-            </foreignObject>
-          </svg> */}
+          <SmallUpcomingSVG
+            LineColour={LineColour} 
+            LineCode={LineCode} 
+            FinalStop={FinalStop} 
+            NextStop={NextStop} 
+            UpcomingStops={UpcomingStops}
+            ScrollClass={ScrollClass}
+          />
         </div>
 
         <div className='basis-1/2'>
-          <svg width="100%" viewBox='0 0 854 481' className='inline-block align-top'>
-            <foreignObject x="0" y="0" width={854} height={480}>
-              <BigStopping
-                LineColour={LineColour} 
-                LineCode={LineCode} 
-                FinalStop={FinalStop}
-                ViaStop={ViaStop}
-                NextStop={NextStop}
-                Roundels={Roundels}
-              />
-            </foreignObject>
-          </svg>
-
-          <svg width="100%" viewBox='0 0 854 241' className='inline-block'>
-            <foreignObject x="0" y="0" width={854} height={240}>
-              <SmallStopping
-                LineColour={LineColour} 
-                LineCode={LineCode} 
-                FinalStop={FinalStop}
-                NextStop={NextStop}
-                Roundels={Roundels}
-              />
-            </foreignObject>
-          </svg>
+          <BigStoppingSVG 
+            LineColour={LineColour} 
+            LineCode={LineCode} 
+            FinalStop={FinalStop}
+            ViaStop={ViaStop}
+            NextStop={NextStop}
+            Roundels={Roundels}
+          />
+          <SmallStoppingSVG
+            LineColour={LineColour} 
+            LineCode={LineCode} 
+            FinalStop={FinalStop}
+            NextStop={NextStop}
+            Roundels={Roundels}
+          />
         </div>
       </div>
     </div>

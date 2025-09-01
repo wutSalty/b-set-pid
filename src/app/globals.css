@@ -32,7 +32,7 @@
   @keyframes scroll-test {
     0% {
       /* margin-top: 405px; */
-      transform: translateY(405px);
+      transform: translateY(var(--start));
       /* translate: 0 405px; */
     }
 
